@@ -8,12 +8,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root{
-  --red:#e63946;--red-dark:#9b1c27;--red-glow:#ff6b7a;
+  --purple:#8b5cf6;--purple-dark:#6d28d9;--purple-glow:#a78bfa;
   --gold:#f4a820;--gold-dim:#a06e10;
   --bg:#080a0d;--bg2:#0e1117;--bg3:#141820;--bg4:#1a2030;
   --border:#1e2535;--border2:#2a3347;
   --text:#d4dbe8;--text-dim:#6b7a94;--text-muted:#3d4d66;
   --white:#fff;--green:#2ecc71;--cyan:#48cae4;
+  --red:var(--purple);--red-dark:var(--purple-dark);--red-glow:var(--purple-glow);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -294,6 +295,7 @@ footer{padding:4rem 0;text-align:center;position:relative;z-index:1}
     <li><a href="#plantillas">Plantillas</a></li>
     <li><a href="#registro">Registro</a></li>
     <li><a href="#practicas">Prácticas</a></li>
+    <li><a href="#retencion">Retención</a></li>
   </ul>
 </nav>
 
@@ -891,6 +893,85 @@ ASALTO PAUSADO POR REVISIÓN
   </div>
 </section>
 
+<!-- 11 · RETENCIÓN DE MAFIAS -->
+<section id="retencion">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">11</div>
+      <div class="section-info">
+        <div class="section-label">Estrategia</div>
+        <h2 class="section-title">Retención de Mafias</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-bottom:2rem">
+      <p style="font-size:1rem;color:var(--text-dim);line-height:1.75;max-width:780px;">
+        Los miembros no se quedan por los rangos, se quedan por la <strong style="color:var(--white)">experiencia</strong>. Una mafia que no cuida a sus miembros pierde gente rápido.
+      </p>
+    </div>
+    <div class="practices-grid reveal" style="transition-delay:.1s">
+      <div class="practice-card">
+        <span class="practice-icon" style="color:var(--purple-glow)"><i class="fa-solid fa-hand-holding-heart"></i></span>
+        <div class="practice-title">Comunicación Activa</div>
+        <ul class="practice-list">
+          <li>Chat de mafia activo diario</li>
+          <li>Respuesta en menos de 24h</li>
+          <li>Feedback positivo constante</li>
+        </ul>
+      </div>
+      <div class="practice-card">
+        <span class="practice-icon" style="color:var(--purple-glow)"><i class="fa-solid fa-gift"></i></span>
+        <div class="practice-title">Beneficios Exclusivos</div>
+        <ul class="practice-list">
+          <li>Acceso prioritario a eventos</li>
+          <li>Recompensas por actividad</li>
+          <li>Privilegios solo para miembros</li>
+        </ul>
+      </div>
+      <div class="practice-card">
+        <span class="practice-icon" style="color:var(--purple-glow)"><i class="fa-solid fa-users"></i></span>
+        <div class="practice-title">Evento Interno</div>
+        <ul class="practice-list">
+          <li>Reuniones semanales</li>
+          <li>Actividades sociales</li>
+          <li>Competencias entre miembros</li>
+        </ul>
+      </div>
+      <div class="practice-card">
+        <span class="practice-icon" style="color:var(--purple-glow)"><i class="fa-solid fa-star"></i></span>
+        <div class="practice-title">Reconocimiento</div>
+        <ul class="practice-list">
+          <li>Ascensos merecidos</li>
+          <li>Menciones públicas</li>
+          <li>"Miembro del mes"</li>
+        </ul>
+      </div>
+      <div class="practice-card">
+        <span class="practice-icon" style="color:var(--purple-glow)"><i class="fa-solid fa-house-user"></i></span>
+        <div class="practice-title">Ambiente de Hermandad</div>
+        <ul class="practice-list">
+          <li>Todos se conocen entre sí</li>
+          <li>Apoyo mutuo en juego</li>
+          <li>No favoritismo</li>
+        </ul>
+      </div>
+      <div class="practice-card">
+        <span class="practice-icon" style="color:var(--purple-glow)"><i class="fa-solid fa-chalkboard-user"></i></span>
+        <div class="practice-title">Capacitación</div>
+        <ul class="practice-list">
+          <li>Mentores asignados</li>
+          <li>Guías de progreso</li>
+          <li>Sesiones de entrenamiento</li>
+        </ul>
+      </div>
+    </div>
+    <div class="alert reveal" style="transition-delay:.2s;margin-top:2rem">
+      <span class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+      <p class="alert-text"><strong>Regla de oro:</strong> Si un miembro lleva 3 días sin conectarse, contactarlo. Si lleva 7 días, preguntar si todo bien. La mayoría de las bajas se evitan con una simple pregunta.</p>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -911,6 +992,7 @@ const nav=document.getElementById('topnav');
 window.addEventListener('scroll',()=>{nav.classList.toggle('visible',window.scrollY>window.innerHeight*.55)});
 const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+document.querySelector('.scroll-arrow').addEventListener('click',()=>window.scrollTo({top:window.innerHeight,behavior:'smooth'}));
 </script>
 </body>
 </html>
