@@ -23,8 +23,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:0}
 
 .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:2rem}
-.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(230,57,70,.10) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 80% 20%,rgba(244,168,32,.05) 0%,transparent 60%),linear-gradient(180deg,#0a0d13 0%,#050709 100%)}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(230,57,70,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(230,57,70,.06) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(139,92,246,.10) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 80% 20%,rgba(244,168,32,.05) 0%,transparent 60%),linear-gradient(180deg,#0a0d13 0%,#050709 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(139,92,246,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.06) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite}
 @keyframes gridMove{from{transform:translateY(0)}to{transform:translateY(60px)}}
 .hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .particle{position:absolute;width:2px;height:2px;background:var(--red);border-radius:50%;opacity:0;animation:floatUp linear infinite}
@@ -35,11 +35,11 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .bracket-bl{bottom:20px;left:20px;border-width:0 0 2px 2px}
 .bracket-br{bottom:20px;right:20px;border-width:0 2px 2px 0}
 .hero-content{position:relative;z-index:1;text-align:center;max-width:900px}
-.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.3);padding:.35rem 1.2rem;border-radius:2px;font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.15em;color:var(--red-glow);margin-bottom:2rem;animation:fadeDown .8s ease both}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.3);padding:.35rem 1.2rem;border-radius:2px;font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.15em;color:var(--red-glow);margin-bottom:2rem;animation:fadeDown .8s ease both}
 .hero-badge::before{content:'▶';font-size:.55rem}
 .hero-dept{font-family:'Barlow',sans-serif;font-weight:300;font-size:clamp(1rem,2.5vw,1.3rem);letter-spacing:.5em;color:var(--text-dim);text-transform:uppercase;margin-bottom:.5rem;animation:fadeDown 1s .15s ease both}
-.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,11vw,9rem);line-height:.88;color:var(--white);letter-spacing:-.01em;animation:fadeDown 1s .3s ease both;text-shadow:0 0 80px rgba(230,57,70,.3)}
-.hero-title span{color:var(--red);display:block;text-shadow:0 0 40px rgba(230,57,70,.6)}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,11vw,9rem);line-height:.88;color:var(--white);letter-spacing:-.01em;animation:fadeDown 1s .3s ease both;text-shadow:0 0 80px rgba(139,92,246,.3)}
+.hero-title span{color:var(--red);display:block;text-shadow:0 0 40px rgba(139,92,246,.6)}
 .hero-sub{font-size:clamp(.78rem,1.6vw,.9rem);color:var(--text-dim);letter-spacing:.15em;text-transform:uppercase;margin-top:1.2rem;animation:fadeDown 1s .45s ease both}
 .hero-line{width:180px;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);margin:1.8rem auto;animation:fadeIn 1s .6s ease both}
 .hero-meta{display:flex;justify-content:center;gap:2rem;font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--text-muted);letter-spacing:.1em;animation:fadeIn 1s .75s ease both}
@@ -77,7 +77,7 @@ section{padding:5rem 0;border-bottom:1px solid var(--border)}
 .uniform-icon{font-size:2.5rem;margin-bottom:.8rem;display:block;color:var(--red-glow)}
 .uniform-label{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--text-muted);text-transform:uppercase;margin-bottom:.3rem}
 .uniform-type{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.2rem;color:var(--white);margin-bottom:.5rem}
-.uniform-id{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:var(--red);line-height:1;text-shadow:0 0 20px rgba(230,57,70,.4)}
+.uniform-id{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:var(--red);line-height:1;text-shadow:0 0 20px rgba(139,92,246,.4)}
 .uniform-note{font-size:.8rem;color:var(--text-dim);margin-top:.5rem}
 
 .channel-list{display:flex;flex-direction:column;gap:.75rem}
@@ -90,7 +90,7 @@ section{padding:5rem 0;border-bottom:1px solid var(--border)}
 .channel-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;color:var(--white)}
 .channel-desc{font-size:.83rem;color:var(--text-dim);margin-top:.15rem}
 .channel-badge{font-family:'Share Tech Mono',monospace;font-size:.63rem;padding:.25rem .6rem;border-radius:2px;white-space:nowrap}
-.badge-high{background:rgba(230,57,70,.15);color:var(--red-glow);border:1px solid rgba(230,57,70,.3)}
+.badge-high{background:rgba(139,92,246,.15);color:var(--red-glow);border:1px solid rgba(139,92,246,.3)}
 .badge-med{background:rgba(244,168,32,.12);color:var(--gold);border:1px solid rgba(244,168,32,.3)}
 .badge-low{background:rgba(107,122,148,.1);color:var(--text-dim);border:1px solid var(--border)}
 
@@ -106,7 +106,7 @@ section{padding:5rem 0;border-bottom:1px solid var(--border)}
 .step-title .step-icon{font-size:1rem}
 .step-text{font-size:.9rem;color:var(--text-dim);line-height:1.65}
 .step-text strong{color:var(--text)}
-.step-tag{display:inline-block;background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.25);color:var(--red-glow);font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:.15rem .5rem;border-radius:2px;margin:.3rem .2rem 0 0}
+.step-tag{display:inline-block;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);color:var(--red-glow);font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:.15rem .5rem;border-radius:2px;margin:.3rem .2rem 0 0}
 
 .bot-timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:2rem}
 .bot-step{background:var(--bg2);padding:1.5rem;text-align:center;position:relative;transition:background .25s}
@@ -140,7 +140,7 @@ section{padding:5rem 0;border-bottom:1px solid var(--border)}
 .adm-flow-step:not(:last-child)::after{content:'';position:absolute;left:24px;top:50px;bottom:0;width:2px;background:var(--border)}
 .adm-flow-step-icon{display:flex;align-items:flex-start;justify-content:center;padding-top:1.2rem}
 .adm-flow-step-icon .circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;position:relative;z-index:1}
-.circle-red{background:rgba(230,57,70,.15);color:var(--red);border:2px solid var(--red)}
+.circle-red{background:rgba(139,92,246,.15);color:var(--red);border:2px solid var(--red)}
 .circle-gold{background:rgba(244,168,32,.12);color:var(--gold);border:2px solid var(--gold)}
 .adm-flow-step-body{padding:1.2rem 1.4rem 1.8rem 1rem}
 .adm-flow-step-label{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.4rem}
@@ -159,7 +159,7 @@ section{padding:5rem 0;border-bottom:1px solid var(--border)}
 .adm-sim-body{padding:1.2rem;font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:1.9}
 .adm-sim-input{color:var(--text-dim);margin-bottom:.3rem}
 .adm-sim-input .cmd-text{color:var(--white)}
-.adm-sim-result{background:rgba(230,57,70,.05);border:1px solid rgba(230,57,70,.15);border-left:3px solid var(--red);padding:.8rem 1rem;margin-top:.8rem;line-height:1.8}
+.adm-sim-result{background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.15);border-left:3px solid var(--red);padding:.8rem 1rem;margin-top:.8rem;line-height:1.8}
 .adm-sim-result .ar{color:var(--red-glow)}
 .adm-world-selector{background:rgba(244,168,32,.05);border:1px solid rgba(244,168,32,.15);border-left:3px solid var(--gold);padding:.8rem 1rem;margin-top:.8rem}
 .adm-world-selector .aw{color:var(--white)}
@@ -170,7 +170,7 @@ section{padding:5rem 0;border-bottom:1px solid var(--border)}
 .adm-example{background:var(--bg2);border:1px solid var(--border);overflow:hidden;transition:border-color .25s}
 .adm-example:hover{border-color:var(--border2)}
 .adm-example-header{background:var(--bg3);padding:.7rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem}
-.adm-example-header .ae-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:rgba(230,57,70,.12);border-radius:2px;font-size:.8rem}
+.adm-example-header .ae-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:rgba(139,92,246,.12);border-radius:2px;font-size:.8rem}
 .adm-example-header span{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;color:var(--white)}
 .adm-example-header .ae-when{margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-muted);letter-spacing:.08em}
 .adm-example-body{padding:1rem 1.2rem;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--text);line-height:1.9;white-space:pre-wrap}
@@ -214,7 +214,7 @@ section{padding:5rem 0;border-bottom:1px solid var(--border)}
 .practice-list li::before{content:'\f054';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;left:0;color:var(--red);font-size:.5rem;top:50%;transform:translateY(-50%)}
 .practice-list li:last-child{border-bottom:none}
 
-.alert{display:flex;gap:1rem;align-items:flex-start;background:rgba(230,57,70,.06);border:1px solid rgba(230,57,70,.2);border-left:3px solid var(--red);padding:1rem 1.2rem;margin:1.5rem 0}
+.alert{display:flex;gap:1rem;align-items:flex-start;background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.2);border-left:3px solid var(--red);padding:1rem 1.2rem;margin:1.5rem 0}
 .alert-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
 .alert-text{font-size:.88rem;color:var(--text-dim);line-height:1.6}
 .alert-text strong{color:var(--text)}
@@ -340,9 +340,6 @@ footer{padding:4rem 0;text-align:center;position:relative;z-index:1}
 <nav class="nav" id="topnav">
   <div class="nav-logo"><i class="fa-solid fa-shield-halved" style="margin-right:.4rem"></i>ENT</div>
   <ul class="nav-links">
-    <li><a href="#home">Home</a></li>
-    <li><a href="#poderes">Poderes</a></li>
-    <li><a href="#rangos">Rangos</a></li>
     <li><a href="#canales">Canales</a></li>
     <li><a href="#asalto">Asalto</a></li>
     <li><a href="#bot">Bot</a></li>
@@ -379,123 +376,6 @@ footer{padding:4rem 0;text-align:center;position:relative;z-index:1}
   </div>
   <div class="scroll-indicator"><span>DESPLAZAR</span><div class="scroll-arrow"></div></div>
 </div>
-
-<!-- 01 · HOME -->
-<section id="home">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="section-num">01</div>
-      <div class="section-info">
-        <div class="section-label">Introducción</div>
-        <h2 class="section-title">¿Qué es ENT?</h2>
-        <div class="section-line"></div>
-      </div>
-    </div>
-    <div class="reveal" style="transition-delay:.1s">
-      <div class="highlight-box">
-        <p><strong style="color:var(--purple-glow)">Departamento de Entretenimiento (ENT)</strong> es el equipo encargado de organizar eventos competitivos entre mafias dentro de RealRP. Organizamos:<br><br>
-        <strong style="color:var(--white)">• Asaltos a Sede</strong> — Combates 15vs15 con mejor de 3 rondas<br>
-        <strong style="color:var(--white)">• Battle Royale</strong> — Último jugador en pie<br>
-        <strong style="color:var(--white)">• Rey del Crimen</strong> — Torneos individuales<br>
-        <strong style="color:var(--white)">• Eventos Customs</strong> — Eventos con reglas especiales</p>
-      </div>
-    </div>
-    <div class="roles-grid reveal" style="transition-delay:.2s;margin-top:1.5rem">
-      <div class="role-card" style="text-align:center">
-        <span style="font-size:2.5rem;color:var(--purple-glow);display:block;margin-bottom:.5rem"><i class="fa-solid fa-school"></i></span>
-        <div class="role-name">Enseñar</div>
-        <div class="role-desc">Capacitamos a nuevos miembros en los procedimientos</div>
-      </div>
-      <div class="role-card" style="text-align:center">
-        <span style="font-size:2.5rem;color:var(--purple-glow);display:block;margin-bottom:.5rem"><i class="fa-solid fa-handshake"></i></span>
-        <div class="role-name">Acompañar</div>
-        <div class="role-desc">Asistimos durante los eventos activamente</div>
-      </div>
-      <div class="role-card" style="text-align:center">
-        <span style="font-size:2.5rem;color:var(--purple-glow);display:block;margin-bottom:.5rem"><i class="fa-solid fa-eye"></i></span>
-        <div class="role-name">Supervisar</div>
-        <div class="role-desc">Controlamos que todo sea justo y ordenado</div>
-      </div>
-      <div class="role-card" style="text-align:center">
-        <span style="font-size:2.5rem;color:var(--purple-glow);display:block;margin-bottom:.5rem"><i class="fa-solid fa-users-gear"></i></span>
-        <div class="role-name">Delegar</div>
-        <div class="role-desc">Asignamos responsabilidades a miembros con experiencia</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 02 · PODERES -->
-<section id="poderes">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="section-num">02</div>
-      <div class="section-info">
-        <div class="section-label">Staff</div>
-        <h2 class="section-title">Poderes del ENT</h2>
-        <div class="section-line"></div>
-      </div>
-    </div>
-    <div class="reveal" style="transition-delay:.1s">
-      <table class="data-table">
-        <thead><tr><th>Comando</th><th>Función</th><th>Ejemplo</th></tr></thead>
-        <tbody>
-          <tr><td><span class="inline-code">WALL</span></td><td>Ver jugadores a través de paredes</td><td>En consola</td></tr>
-          <tr><td><span class="inline-code">NC</span></td><td>Modo Noclip (volar)</td><td>En consola</td></tr>
-          <tr><td><span class="inline-code">areamundo [n] [r]</span></td><td>Crear mundo aislado para evento</td><td><span class="inline-code">areamundo 69 10</span></td></tr>
-          <tr><td><span class="inline-code">TPAREA</span></td><td>Teletransportar área al punto</td><td>Desde panel</td></tr>
-          <tr><td><span class="inline-code">/adm</span></td><td>Anunciar al mundo del evento</td><td>Ver sección 06</td></tr>
-          <tr><td><span class="inline-code">/areamundo 1 100</span></td><td>Regresar todos al mundo 1</td><td>Fin del evento</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="alert alert-cyan reveal" style="transition-delay:.2s;margin-top:1.5rem">
-      <span class="alert-icon"><i class="fa-solid fa-info-circle"></i></span>
-      <p class="alert-text">Los eventos se hacen en <strong>mundos aislados</strong> — no afectan al servidor principal ni a otros jugadores.</p>
-    </div>
-  </div>
-</section>
-
-<!-- 03 · RANGOS Y UNIFORME -->
-<section id="rangos">
-  <div class="container">
-    <div class="section-header reveal">
-      <div class="section-num">03</div>
-      <div class="section-info">
-        <div class="section-label">Organización</div>
-        <h2 class="section-title">Rangos y Uniforme</h2>
-        <div class="section-line"></div>
-      </div>
-    </div>
-    <div class="reveal" style="transition-delay:.1s">
-      <div class="roles-grid">
-        <div class="role-card"><div class="role-abbr">ADM</div><div class="role-name">Administrador</div><div class="role-desc">Máxima autoridad del departamento</div><div class="role-hierarchy">AUTORIDAD MÁXIMA</div></div>
-        <div class="role-card"><div class="role-abbr">Aux.ENT</div><div class="role-name">Auxiliar</div><div class="role-desc">Apoyo estratégico, por encima del Líder</div><div class="role-hierarchy">2° EN MANDO</div></div>
-        <div class="role-card"><div class="role-abbr">Lid.ENT</div><div class="role-name">Líder</div><div class="role-desc">Máxima autoridad operativa en eventos</div><div class="role-hierarchy">3° EN MANDO</div></div>
-        <div class="role-card"><div class="role-abbr">Sub.ENT</div><div class="role-name">Sublíder</div><div class="role-desc">Apoya al Líder en coordinación</div></div>
-        <div class="role-card"><div class="role-abbr">ENT</div><div class="role-name">Miembro</div><div class="role-desc">Acceso completo para organizar eventos</div></div>
-        <div class="role-card"><div class="role-abbr">ENT-T</div><div class="role-name">Tester</div><div class="role-desc">En período de prueba</div></div>
-      </div>
-    </div>
-    <div class="reveal" style="transition-delay:.2s;margin-top:2rem">
-      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-shirt"></i></span> Uniforme Oficial</h3>
-      <div class="uniform-row">
-        <div class="uniform-card">
-          <span class="uniform-icon"><i class="fa-solid fa-user-tie"></i></span>
-          <div class="uniform-label">Hombre</div>
-          <div class="uniform-type">Uniforme Masculino</div>
-          <div class="uniform-id">502</div>
-        </div>
-        <div class="uniform-card">
-          <span class="uniform-icon"><i class="fa-solid fa-user"></i></span>
-          <div class="uniform-label">Mujer</div>
-          <div class="uniform-type">Uniforme Femenino</div>
-          <div class="uniform-id">693</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- 04 · CANALES -->
 <section id="canales">
