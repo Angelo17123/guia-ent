@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENT — Guía Oficial de Eventos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --primary:#8b5cf6;
+  --primary-dark:#6d28d9;
+  --primary-light:#a78bfa;
+  --primary-glow:rgba(139,92,246,0.4);
+  --accent:#f4a820;
+  --accent-dim:#a06e10;
+  --bg:#0a0b0f;
+  --bg-card:#111318;
+  --bg-card-hover:#181b23;
+  --bg-elevated:#1c2029;
+  --border:#2a2f3a;
+  --border-light:#363d4d;
+  --text:#e4e7eb;
+  --text-secondary:#9ca3af;
+  --text-muted:#6b7280;
+  --white:#fafafa;
+  --success:#10b981;
+  --warning:#f59e0b;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  font-size:15px;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* Background Effects */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 1000px 800px at 20% 20%, rgba(139,92,246,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 600px 400px at 80% 80%, rgba(244,168,32,0.04) 0%, transparent 40%),
+    radial-gradient(ellipse 400px 300px at 60% 10%, rgba(139,92,246,0.06) 0%, transparent 40%);
+  pointer-events:none;
+  z-index:-1;
+}
+
+.bg-grid{
+  position:fixed;
+  inset:0;
+  background-image: 
+    linear-gradient(rgba(139,92,246,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139,92,246,0.03) 1px, transparent 1px);
+  background-size:50px 50px;
+  pointer-events:none;
+  z-index:-1;
+}
+
+/* Typography */
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.02em}
+
+/* Header */
+.header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:1000;
+  padding:1rem 2rem;
+  background:rgba(10,11,15,0.8);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transform:translateY(-100%);
+  transition:transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.header.visible{transform:translateY(0)}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  font-family:'Syne',sans-serif;
+  font-weight:800;
+  font-size:1.25rem;
+  color:var(--white);
+  letter-spacing:0.05em;
+}
+.logo i{color:var(--primary);font-size:1.5rem}
+
+/* Hero */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:6rem 2rem 4rem;
+  text-align:center;
+  overflow:hidden;
+}
+
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  background:linear-gradient(135deg,rgba(139,92,246,0.15),rgba(139,92,246,0.05));
+  border:1px solid rgba(139,92,246,0.3);
+  padding:0.5rem 1.25rem;
+  border-radius:100px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;
+  letter-spacing:0.15em;
+  color:var(--primary-light);
+  margin-bottom:1.5rem;
+  animation:fadeInDown 0.8s ease both;
+}
+
+.hero-badge::before{
+  content:'';
+  width:6px;
+  height:6px;
+  background:var(--primary);
+  border-radius:50%;
+  animation:pulse 2s ease infinite;
+}
+
+.hero-dept{
+  font-family:'Outfit',sans-serif;
+  font-weight:300;
+  font-size:clamp(0.85rem,2vw,1rem);
+  letter-spacing:0.6em;
+  color:var(--text-muted);
+  text-transform:uppercase;
+  margin-bottom:0.75rem;
+  animation:fadeInDown 0.8s 0.1s ease both;
+}
+
+.hero-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(3rem,12vw,7.5rem);
+  font-weight:800;
+  line-height:0.9;
+  color:var(--white);
+  letter-spacing:-0.03em;
+  animation:fadeInDown 0.8s 0.2s ease both;
+}
+
+.hero-title span{
+  display:block;
+  background:linear-gradient(135deg,var(--primary-light),var(--primary));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.hero-sub{
+  font-size:clamp(0.8rem,1.5vw,1rem);
+  color:var(--text-secondary);
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  margin-top:1.5rem;
+  animation:fadeInDown 0.8s 0.35s ease both;
+}
+
+.hero-line{
+  width:120px;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--primary),transparent);
+  margin:2rem auto;
+  animation:fadeIn 1s 0.5s ease both;
+}
+
+.hero-meta{
+  display:flex;
+  justify-content:center;
+  gap:2rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;
+  color:var(--text-muted);
+  letter-spacing:0.1em;
+  animation:fadeIn 1s 0.6s ease both;
+}
+
+.hero-meta span{display:flex;align-items:center;gap:0.5rem}
+.hero-meta span::before{content:'●';color:var(--primary);font-size:0.4rem}
+
+/* Scroll */
+.scroll-indicator{
+  position:absolute;
+  bottom:2rem;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:0.75rem;
+  animation:fadeIn 1s 0.8s ease both;
+}
+.scroll-indicator span{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;
+  letter-spacing:0.2em;
+  color:var(--text-muted);
+  text-transform:uppercase;
+}
+.scroll-arrow{
+  width:18px;
+  height:18px;
+  border-right:2px solid var(--primary);
+  border-bottom:2px solid var(--primary);
+  transform:rotate(45deg);
+  animation:bounce 2s ease infinite;
+}
+
+/* Container */
+.container{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 1.5rem;
+  position:relative;
+  z-index:1;
+}
+
+/* Section */
+section{
+  padding:5rem 0;
+  border-bottom:1px solid var(--border);
+}
+
+.section-header{
+  display:flex;
+  align-items:flex-start;
+  gap:2rem;
+  margin-bottom:3rem;
+}
+
+.section-num{
+  font-family:'Syne',sans-serif;
+  font-size:4rem;
+  font-weight:800;
+  line-height:1;
+  color:var(--primary);
+  opacity:0.15;
+  user-select:none;
+  min-width:60px;
+}
+
+.section-info{flex:1}
+
+.section-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;
+  letter-spacing:0.2em;
+  color:var(--primary);
+  text-transform:uppercase;
+  margin-bottom:0.5rem;
+}
+
+.section-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(1.75rem,4vw,2.5rem);
+  font-weight:600;
+  color:var(--white);
+  line-height:1.15;
+}
+
+.section-line{
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg,var(--primary) 0%,transparent 60%);
+  margin-top:1rem;
+}
+
+/* Cards Grid */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1rem;
+  background:var(--border);
+  border:1px solid var(--border);
+}
+
+.card{
+  background:var(--bg-card);
+  padding:1.5rem;
+  position:relative;
+  overflow:hidden;
+  transition:all 0.3s ease;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  width:3px;
+  height:100%;
+  background:var(--primary);
+  transform:scaleY(0);
+  transition:transform 0.3s ease;
+}
+
+.card:hover{background:var(--bg-card-hover)}
+.card:hover::before{transform:scaleY(1)}
+
+.card-abbr{
+  font-family:'JetBrains Mono',monospace;
+  font-size:1.25rem;
+  color:var(--accent);
+  letter-spacing:0.05em;
+  margin-bottom:0.35rem;
+}
+
+.card-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:1.1rem;
+  color:var(--white);
+  margin-bottom:0.5rem;
+}
+
+.card-desc{
+  font-size:0.85rem;
+  color:var(--text-secondary);
+  line-height:1.6;
+}
+
+.card-hierarchy{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;
+  color:var(--text-muted);
+  margin-top:0.75rem;
+  letter-spacing:0.05em;
+  padding-top:0.75rem;
+  border-top:1px solid var(--border);
+}
+
+/* Uniform */
+.uniform-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:1.5rem;
+  margin-top:1.5rem;
+}
+
+.uniform-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:2rem;
+  position:relative;
+  overflow:hidden;
+  transition:all 0.3s ease;
+}
+
+.uniform-card:hover{
+  border-color:var(--primary);
+  transform:translateY(-4px);
+}
+
+.uniform-card::after{
+  content:'';
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  transform:scaleX(0);
+  transition:transform 0.4s ease;
+}
+
+.uniform-card:hover::after{transform:scaleX(1)}
+
+.uniform-icon{
+  font-size:2.5rem;
+  color:var(--primary-light);
+  margin-bottom:1rem;
+}
+
+.uniform-label{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;
+  letter-spacing:0.2em;
+  color:var(--text-muted);
+  text-transform:uppercase;
+  margin-bottom:0.35rem;
+}
+
+.uniform-type{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:1.15rem;
+  color:var(--white);
+  margin-bottom:0.5rem;
+}
+
+.uniform-id{
+  font-family:'Syne',sans-serif;
+  font-size:3rem;
+  font-weight:700;
+  color:var(--primary);
+  line-height:1;
+}
+
+/* Channel List */
+.channel-list{display:flex;flex-direction:column;gap:0.75rem}
+
+.channel-item{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:1.25rem;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-left:3px solid var(--primary-dark);
+  padding:1rem 1.5rem;
+  transition:all 0.25s ease;
+}
+
+.channel-item:hover{
+  border-left-color:var(--primary);
+  background:var(--bg-card-hover);
+  transform:translateX(4px);
+}
+
+.channel-hash{
+  font-family:'Syne',sans-serif;
+  font-size:1.5rem;
+  color:var(--primary-dark);
+  width:24px;
+  text-align:center;
+}
+
+.channel-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:1rem;
+  color:var(--white);
+}
+
+.channel-desc{
+  font-size:0.8rem;
+  color:var(--text-secondary);
+  margin-top:0.2rem;
+}
+
+.channel-badge{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;
+  padding:0.25rem 0.6rem;
+  border-radius:4px;
+  white-space:nowrap;
+}
+
+.badge-high{
+  background:rgba(139,92,246,0.15);
+  color:var(--primary-light);
+  border:1px solid rgba(139,92,246,0.3);
+}
+
+.badge-med{
+  background:rgba(244,168,32,0.12);
+  color:var(--accent);
+  border:1px solid rgba(244,168,32,0.3);
+}
+
+.badge-low{
+  background:rgba(107,122,148,0.1);
+  color:var(--text-muted);
+  border:1px solid var(--border);
+}
+
+/* Steps */
+.steps{display:flex;flex-direction:column;gap:0}
+
+.step{display:grid;grid-template-columns:60px 1fr;position:relative}
+
+.step::after{
+  content:'';
+  position:absolute;
+  left:28px;
+  top:48px;
+  bottom:-1px;
+  width:2px;
+  background:linear-gradient(180deg,var(--primary-dark),transparent);
+}
+
+.step:last-child::after{display:none}
+
+.step-num-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-top:0.75rem;
+}
+
+.step-num{
+  width:32px;
+  height:32px;
+  border:2px solid var(--primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem;
+  color:var(--primary);
+  background:var(--bg);
+  position:relative;
+  z-index:1;
+  transition:all 0.3s ease;
+}
+
+.step:hover .step-num{background:var(--primary);color:var(--white)}
+
+.step-body{padding:0.75rem 0 1.5rem 1.25rem}
+
+.step-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:1.1rem;
+  color:var(--white);
+  margin-bottom:0.5rem;
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+}
+
+.step-icon{font-size:0.9rem}
+
+.step-text{
+  font-size:0.9rem;
+  color:var(--text-secondary);
+  line-height:1.7;
+}
+
+.step-text strong{color:var(--text)}
+
+.step-tag{
+  display:inline-block;
+  background:rgba(139,92,246,0.1);
+  border:1px solid rgba(139,92,246,0.25);
+  color:var(--primary-light);
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;
+  padding:0.15rem 0.5rem;
+  border-radius:3px;
+  margin:0.35rem 0.25rem 0 0;
+}
+
+/* Timeline */
+.timeline{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+  margin-bottom:2rem;
+}
+
+.timeline-step{
+  background:var(--bg-card);
+  padding:1.5rem;
+  text-align:center;
+  position:relative;
+  transition:background 0.25s;
+}
+
+.timeline-step:hover{background:var(--bg-card-hover)}
+
+.timeline-step::after{
+  content:'\f054';
+  font-family:'Font Awesome 6 Free';
+  font-weight:900;
+  position:absolute;
+  right:-8px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--primary-dark);
+  font-size:0.65rem;
+  z-index:2;
+}
+
+.timeline-step:last-child::after{display:none}
+
+.timeline-num{
+  font-family:'Syne',sans-serif;
+  font-size:2rem;
+  font-weight:700;
+  color:var(--primary);
+  opacity:0.5;
+  line-height:1.2;
+}
+
+.timeline-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  color:var(--white);
+  font-size:0.95rem;
+  margin:0.35rem 0;
+}
+
+.timeline-desc{
+  font-size:0.75rem;
+  color:var(--text-secondary);
+  line-height:1.5;
+}
+
+/* Table */
+.data-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.data-table th{
+  background:var(--bg-card);
+  color:var(--text-muted);
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.65rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  padding:0.75rem 1rem;
+  text-align:left;
+  border-bottom:2px solid var(--primary-dark);
+}
+
+.data-table td{
+  padding:0.75rem 1rem;
+  font-size:0.85rem;
+  color:var(--text-secondary);
+  border-bottom:1px solid var(--border);
+  vertical-align:top;
+}
+
+.data-table tr:nth-child(even) td{background:rgba(255,255,255,0.015)}
+.data-table tr:hover td{background:var(--bg-card-hover)}
+.data-table td strong{color:var(--text)}
+
+.inline-code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.8rem;
+  color:var(--accent);
+  background:rgba(244,168,32,0.08);
+  border:1px solid rgba(244,168,32,0.2);
+  padding:0.1rem 0.4rem;
+  border-radius:3px;
+}
+
+/* Alert */
+.alert{
+  display:flex;
+  gap:1rem;
+  align-items:flex-start;
+  background:rgba(139,92,246,0.06);
+  border:1px solid rgba(139,92,246,0.2);
+  border-left:3px solid var(--primary);
+  padding:1rem 1.25rem;
+  margin:1.5rem 0;
+}
+
+.alert-icon{
+  font-size:1.15rem;
+  flex-shrink:0;
+  margin-top:0.1rem;
+}
+
+.alert-text{
+  font-size:0.88rem;
+  color:var(--text-secondary);
+  line-height:1.6;
+}
+
+.alert-text strong{color:var(--text)}
+
+.alert-gold{
+  background:rgba(244,168,32,0.06);
+  border-color:rgba(244,168,32,0.2);
+  border-left-color:var(--accent);
+}
+
+/* Buttons Grid */
+.buttons-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:0.75rem;
+  margin-top:1.5rem;
+}
+
+.btn-item{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:0.9rem 1rem;
+  transition:all 0.25s ease;
+}
+
+.btn-item:hover{
+  border-color:var(--primary);
+  background:var(--bg-card-hover);
+}
+
+.btn-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:0.9rem;
+  color:var(--white);
+  margin-bottom:0.2rem;
+}
+
+.btn-desc{
+  font-size:0.75rem;
+  color:var(--text-secondary);
+  line-height:1.4;
+}
+
+/* Command Grid */
+.cmd-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+}
+
+.cmd-item{
+  background:var(--bg-card);
+  padding:1rem 1.25rem;
+  display:flex;
+  gap:1rem;
+  align-items:flex-start;
+  transition:background 0.2s;
+}
+
+.cmd-item:hover{background:var(--bg-card-hover)}
+
+.cmd-code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.75rem;
+  color:var(--accent);
+  background:rgba(244,168,32,0.08);
+  border:1px solid rgba(244,168,32,0.2);
+  padding:0.3rem 0.5rem;
+  white-space:nowrap;
+  flex-shrink:0;
+  min-width:100px;
+  text-align:center;
+  line-height:1.4;
+}
+
+.cmd-info-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:0.9rem;
+  color:var(--white);
+}
+
+.cmd-info-desc{
+  font-size:0.8rem;
+  color:var(--text-secondary);
+  margin-top:0.15rem;
+}
+
+/* Sedes */
+.sedes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1.5rem;
+}
+
+.sede-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:1.75rem 1.5rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  transition:all 0.3s ease;
+}
+
+.sede-card:hover{
+  border-color:var(--primary);
+  transform:translateY(-5px);
+}
+
+.sede-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  transform:scaleX(0);
+  transition:transform 0.4s;
+}
+
+.sede-card:hover::before{transform:scaleX(1)}
+
+.sede-name{
+  font-family:'Syne',sans-serif;
+  font-size:1.6rem;
+  font-weight:700;
+  color:var(--white);
+  letter-spacing:0.05em;
+  margin-bottom:0.5rem;
+}
+
+.sede-cap{
+  font-family:'JetBrains Mono',monospace;
+  font-size:1rem;
+  color:var(--primary);
+  margin-bottom:0.4rem;
+}
+
+.sede-desc{
+  font-size:0.8rem;
+  color:var(--text-secondary);
+}
+
+/* Templates */
+.templates-grid{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+
+.template-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  overflow:hidden;
+  transition:border-color 0.25s;
+}
+
+.template-card:hover{border-color:var(--border-light)}
+
+.template-header{
+  background:var(--bg-card-hover);
+  padding:0.75rem 1.25rem;
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.template-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:0.9rem;
+  color:var(--accent);
+}
+
+.template-type{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;
+  letter-spacing:0.1em;
+  color:var(--text-muted);
+}
+
+.template-body{
+  padding:1rem 1.25rem;
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.8rem;
+  color:var(--text);
+  line-height:1.9;
+  white-space:pre-wrap;
+}
+
+/* Practices Grid */
+.practices-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.5rem;
+}
+
+.practice-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:1.5rem;
+  transition:all 0.25s;
+}
+
+.practice-card:hover{
+  border-color:var(--border-light);
+  background:var(--bg-card-hover);
+}
+
+.practice-icon{
+  font-size:1.65rem;
+  margin-bottom:0.75rem;
+  display:block;
+}
+
+.practice-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-weight:600;
+  font-size:1rem;
+  color:var(--white);
+  margin-bottom:0.75rem;
+}
+
+.practice-list{list-style:none}
+
+.practice-list li{
+  font-size:0.8rem;
+  color:var(--text-secondary);
+  line-height:1.6;
+  padding:0.35rem 0 0.35rem 1rem;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+
+.practice-list li::before{
+  content:'\f054';
+  font-family:'Font Awesome 6 Free';
+  font-weight:900;
+  position:absolute;
+  left:0;
+  color:var(--primary);
+  font-size:0.45rem;
+  top:50%;
+  transform:translateY(-50%);
+}
+
+.practice-list li:last-child{border-bottom:none}
+
+/* Footer */
+footer{
+  padding:4rem 0;
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+
+.footer-symbol{
+  font-size:1.75rem;
+  color:var(--primary);
+  opacity:0.3;
+  margin-bottom:0.5rem;
+}
+
+.footer-name{
+  font-family:'Syne',sans-serif;
+  font-weight:700;
+  font-size:1.15rem;
+  color:var(--white);
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  margin-bottom:0.4rem;
+}
+
+.footer-motto{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.7rem;
+  color:var(--text-muted);
+  letter-spacing:0.1em;
+  margin-bottom:1rem;
+}
+
+.footer-meta{
+  font-size:0.7rem;
+  color:var(--text-muted);
+}
+
+/* Animations */
+@keyframes fadeInDown{
+  from{opacity:0;transform:translateY(-20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes fadeIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:0.5}
+}
+
+@keyframes bounce{
+  0%,100%{transform:rotate(45deg) translateY(0)}
+  50%{transform:rotate(45deg) translateY(5px)}
+}
+
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* TOC Flotante */
+.toc-float{
+  position:fixed;
+  right:1rem;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:50;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:0.75rem;
+  width:180px;
+  display:block;
+}
+
+.toc-title{
+  font-family:'JetBrains Mono',monospace;
+  font-size:0.6rem;
+  color:var(--primary-light);
+  letter-spacing:0.15em;
+  margin-bottom:0.5rem;
+  text-transform:uppercase;
+  border-bottom:1px solid var(--border);
+  padding-bottom:0.35rem;
+}
+
+.toc-list{list-style:none;max-height:60vh;overflow-y:auto}
+
+.toc-list li{margin:0.25rem 0}
+
+.toc-list a{
+  font-size:0.7rem;
+  color:var(--text-muted);
+  text-decoration:none;
+  display:block;
+  padding:0.3rem 0.45rem;
+  border-radius:4px;
+  transition:all 0.2s;
+}
+
+.toc-list a:hover,.toc-list a.active{
+  color:var(--white);
+  background:var(--primary);
+}
+
+/* Search */
+.search-box{
+  position:relative;
+  margin-bottom:1rem;
+}
+
+.search-box input{
+  width:100%;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:0.75rem 1rem 0.75rem 2.5rem;
+  border-radius:8px;
+  color:var(--white);
+  font-size:0.9rem;
+  font-family:'Outfit',sans-serif;
+}
+
+.search-box input:focus{
+  outline:none;
+  border-color:var(--primary);
+}
+
+.search-box i{
+  position:absolute;
+  left:0.85rem;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--text-muted);
+}
+
+.search-results{
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-top:none;
+  max-height:300px;
+  overflow-y:auto;
+  z-index:100;
+  display:none;
+  border-radius:0 0 8px 8px;
+}
+
+.search-results.active{display:block}
+
+.search-result{
+  padding:0.75rem 1rem;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;
+  transition:background 0.2s;
+}
+
+.search-result:hover{background:var(--bg-card-hover)}
+
+.search-result-title{
+  color:var(--white);
+  font-size:0.85rem;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--border-light)}
+
+/* Responsive */
+@media(max-width:768px){
+  .timeline{grid-template-columns:1fr}
+  .timeline-step::after{display:none}
+  .section-header{flex-direction:column;gap:0.5rem}
+  .section-num{font-size:2.5rem}
+  .toc-float{display:none}
+  .step{grid-template-columns:50px 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+
+<header class="header" id="header">
+  <div class="logo"><i class="fa-solid fa-shield-halved"></i>ENT</div>
+</header>
+
+<!-- SEARCH -->
+<div class="container" style="padding-top:5rem">
+  <div class="search-box">
+    <i class="fa-solid fa-search"></i>
+    <input type="text" id="searchInput" placeholder="Buscar en la guía...">
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-badge">DEPARTAMENTO OFICIAL — REALRP 2026</div>
+  <p class="hero-dept">Entretenimiento</p>
+  <h1 class="hero-title">GUÍA<span>OFICIAL DE</span>EVENTOS</h1>
+  <p class="hero-sub">Asaltos a Sede · Battle Royale · Rey del Crimen · Eventos Customs</p>
+  <div class="hero-line"></div>
+  <div class="hero-meta">
+    <span>Versión 1.0</span>
+    <span>Abril 2026</span>
+    <span>Uso Interno ENT</span>
+  </div>
+  <div class="scroll-indicator">
+    <span>Desplazar</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- 01 · INTRO -->
+<section id="intro">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">01</div>
+      <div class="section-info">
+        <div class="section-label">Overview</div>
+        <h2 class="section-title">Departamento de Entretenimiento</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <p style="font-size:1rem;color:var(--text-secondary);line-height:1.8;max-width:800px;margin-bottom:1.5rem;">
+        El <strong style="color:var(--white)">Departamento de Entretenimiento (ENT)</strong> es la unidad operativa encargada de planificar, coordinar y ejecutar todos los eventos competitivos de gran escala dentro del servidor RealRP. Su función es proporcionar experiencias de enfrentamiento controlado entre facciones, garantizando fair play, orden y documentación oficial.
+      </p>
+      <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.8;max-width:800px;">
+        Todos los eventos se realizan en <strong style="color:var(--white)">mundos aislados</strong> del servidor, lo que significa que los participantes son trasladados a un espacio independiente que no interferirá con la jugabilidad del resto de los usuarios.
+      </p>
+    </div>
+    <div class="cards-grid reveal" style="margin-top:2rem">
+      <div class="card"><div class="card-icon"><i class="fa-solid fa-building-shield" style="font-size:1.5rem;color:var(--primary-light);margin-bottom:.75rem;display:block"></i></div><div class="card-name">Asalto a Sede</div><div class="card-desc">Enfrentamiento entre 2 mafias en una sede controlada.</div><div style="font-size:.65rem;color:var(--primary);margin-top:.5rem">MODALIDAD: MEJOR DE 3 RONDAS</div></div>
+      <div class="card"><div class="card-icon"><i class="fa-solid fa-skull-crossbones" style="font-size:1.5rem;color:var(--primary-light);margin-bottom:.75rem;display:block"></i></div><div class="card-name">Battle Royale</div><div class="card-desc">Último jugador en pie con múltiples participantes.</div><div style="font-size:.65rem;color:var(--primary);margin-top:.5rem">MODALIDAD: ELIMINACIÓN</div></div>
+      <div class="card"><div class="card-icon"><i class="fa-solid fa-crown" style="font-size:1.5rem;color:var(--primary-light);margin-bottom:.75rem;display:block"></i></div><div class="card-name">Rey del Crimen</div><div class="card-desc">Competencia individual por el título supremo.</div><div style="font-size:.65rem;color:var(--primary);margin-top:.5rem">MODALIDAD: TORNEO</div></div>
+      <div class="card"><div class="card-icon"><i class="fa-solid fa-gear" style="font-size:1.5rem;color:var(--primary-light);margin-bottom:.75rem;display:block"></i></div><div class="card-name">Eventos Customs</div><div class="card-desc">Eventos especiales con reglas personalizadas.</div><div style="font-size:.65rem;color:var(--primary);margin-top:.5rem">MODALIDAD: VARIABLE</div></div>
+    </div>
+    <div class="alert reveal" style="margin-top:2rem">
+      <span class="alert-icon"><i class="fa-solid fa-shield-halved"></i></span>
+      <p class="alert-text"><strong>Filosofía del departamento:</strong> Enseñar · Acompañar · Supervisar · Delegar. Cada miembro con rango superior es responsable de capacitar a los de rango inferior mostrando el procedimiento paso a paso.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · ROLES -->
+<section id="roles">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">02</div>
+      <div class="section-info">
+        <div class="section-label">Organigrama</div>
+        <h2 class="section-title">Estructura de Roles ENT</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <p style="font-size:.9rem;color:var(--text-secondary);margin-bottom:1.5rem;" class="reveal">Orden de autoridad, de mayor a menor:</p>
+    <div class="cards-grid reveal">
+      <div class="card"><div class="card-abbr">ADM</div><div class="card-name">Administrador</div><div class="card-desc">Máximo rango. Permisos especiales de servidor. Supervisión general del departamento.</div><div class="card-hierarchy">AUTORIDAD MÁXIMA</div></div>
+      <div class="card"><div class="card-abbr">Aux.ENT</div><div class="card-name">Auxiliar</div><div class="card-desc">Por encima del Líder. Apoyo estratégico y de coordinación entre eventos. Resolución de conflictos de alto nivel.</div><div class="card-hierarchy">POR ENCIMA DE LID.ENT</div></div>
+      <div class="card"><div class="card-abbr">Lid.ENT</div><div class="card-name">Líder</div><div class="card-desc">Máxima autoridad operativa en eventos. Responsable final de la calidad de cada evento.</div><div class="card-hierarchy">DEBAJO DE AUX.ENT</div></div>
+      <div class="card"><div class="card-abbr">Sub.ENT</div><div class="card-name">Sublíder</div><div class="card-desc">Apoya al Líder en la coordinación general. Toma decisiones secundarias durante los eventos.</div></div>
+      <div class="card"><div class="card-abbr">ENT</div><div class="card-name">Miembro Verificado</div><div class="card-desc">Miembro activo con acceso completo para organizar y gestionar eventos de forma autónoma.</div></div>
+      <div class="card"><div class="card-abbr">ENT-T</div><div class="card-name">Tester</div><div class="card-desc">Miembro en período de prueba. Aprende observando y asistiendo bajo supervisión.</div></div>
+    </div>
+    <div class="reveal" style="margin-top:3rem">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;color:var(--white);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem"><i class="fa-solid fa-shirt" style="color:var(--accent)"></i> Uniforme Oficial ENT</h3>
+      <p style="font-size:.85rem;color:var(--text-secondary);margin-bottom:1rem;">Debes tener el uniforme puesto antes de iniciar cualquier evento.</p>
+    </div>
+    <div class="uniform-grid reveal">
+      <div class="uniform-card">
+        <span class="uniform-icon"><i class="fa-solid fa-user-tie"></i></span>
+        <div class="uniform-label">Camiseta · Hombre</div>
+        <div class="uniform-type">Uniforme Masculino</div>
+        <div class="uniform-id">502</div>
+      </div>
+      <div class="uniform-card">
+        <span class="uniform-icon"><i class="fa-solid fa-user"></i></span>
+        <div class="uniform-label">Camiseta · Mujer</div>
+        <div class="uniform-type">Uniforme Femenino</div>
+        <div class="uniform-id">693</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 · CANALES -->
+<section id="canales">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">03</div>
+      <div class="section-info">
+        <div class="section-label">Discord</div>
+        <h2 class="section-title">Canales de Voz</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="channel-list reveal">
+      <div class="channel-item">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Soporte Entretenimiento</div><div class="channel-desc">Canal principal donde llegan los L00 y rangos altos a solicitar asaltos. <strong>Monitorear constantemente</strong> cuando no estés en un evento activo.</div></div>
+        <span class="channel-badge badge-high">ALTA</span>
+      </div>
+      <div class="channel-item">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Entretenimiento 1</div><div class="channel-desc">Sala operativa principal para la gestión activa de un evento en curso.</div></div>
+        <span class="channel-badge badge-med">MEDIA</span>
+      </div>
+      <div class="channel-item">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Entretenimiento 2</div><div class="channel-desc">Sala secundaria. Aquí se reúnen los L00 de ambas sedes durante la coordinación del asalto.</div></div>
+        <span class="channel-badge badge-med">MEDIA</span>
+      </div>
+      <div class="channel-item">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Entretenimiento 3</div><div class="channel-desc">Canal de apoyo o desbordamiento para múltiples eventos simultáneos.</div></div>
+        <span class="channel-badge badge-low">BAJA</span>
+      </div>
+      <div class="channel-item">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Alineamiento ENT</div><div class="channel-desc">Canal interno exclusivo para briefing del equipo ENT antes de los eventos.</div></div>
+        <span class="channel-badge badge-low">INTERNA</span>
+      </div>
+    </div>
+    <div class="alert reveal">
+      <span class="alert-icon"><i class="fa-solid fa-bullhorn"></i></span>
+      <p class="alert-text"><strong>Regla de oro:</strong> Permanece siempre en <strong>Soporte Entretenimiento</strong> cuando no estés en un evento activo. Los L00 llegan sin aviso previo a solicitar el servicio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 · ASALTO -->
+<section id="asalto">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">04</div>
+      <div class="section-info">
+        <div class="section-label">Procedimiento</div>
+        <h2 class="section-title">Asalto a Sede — Paso a Paso</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-bottom:2.5rem">
+      <h3 style="font-size:1.15rem;color:var(--white);margin-bottom:1rem;font-family:'Space Grotesk',sans-serif;font-weight:600">Requisitos previos</h3>
+      <table class="data-table">
+        <thead><tr><th>Requisito</th><th>Descripción</th><th>Cómo activarlo</th></tr></thead>
+        <tbody>
+          <tr><td><span class="inline-code">Uniforme ENT</span></td><td>Uniforme oficial puesto.</td><td>Hombre: ID <strong>502</strong> · Mujer: ID <strong>693</strong></td></tr>
+          <tr><td><span class="inline-code">WALL</span></td><td>Ver jugadores a través de paredes.</td><td>Comando <span class="inline-code">WALL</span> en consola.</td></tr>
+          <tr><td><span class="inline-code">NC</span></td><td>Modo Noclip para volar por la ciudad.</td><td>Comando <span class="inline-code">NC</span> en consola.</td></tr>
+          <tr><td><span class="inline-code">Set aprobado</span></td><td>Set de rango activo en Staff Real.</td><td>Canal <strong>#pedir-set</strong> en Staff Real.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="steps reveal">
+      <div class="step"><div class="step-num-wrap"><div class="step-num">01</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-phone"></i></span> Recibir la solicitud</div><p class="step-text">Cuando un <strong>L00</strong> llega a <strong>Soporte Entretenimiento</strong>, salúdalo con amabilidad. Pregunta de qué sede son y cuántos jugadores participarán. Anota: <strong>sede solicitante</strong> y <strong>número de jugadores</strong>.</p></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">02</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-plane"></i></span> Buscar sede contrincante</div><p class="step-text">Con <strong>NC y WALL</strong> activos, vuela por la ciudad visitando sedes y preguntando si alguna quiere prepararse para un asalto.</p></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">03</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-microphone"></i></span> Reunir a los L00 en canal</div><p class="step-text">Notifica a la sede solicitante que conseguiste contrincante. Lleva a los L00 de ambas sedes a <strong>Entretenimiento 2</strong>.</p></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">04</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-thumbtack"></i></span> Establecer estado del canal</div><p class="step-text">Configura el estado del canal indicando el enfrentamiento. Formato: <span class="inline-code">Atacantes vs Defensores + Mundo</span>. Ejemplo: <span class="inline-code">A.S vs Kaoz 69</span></p><span class="step-tag">Estado del canal</span><span class="step-tag">Mundo designado</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">05</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-robot"></i></span> Registrar en el Bot</div><p class="step-text">Ve al Discord de Entretenimiento: <strong>discord.gg/FthfyaFFcU</strong> → canal <strong>#bot-entretenimiento</strong> → botón <strong>Registrar Asalto</strong>.</p><span class="step-tag">discord.gg/FthfyaFFcU</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">06</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-globe"></i></span> Enviar al mundo del evento</div><p class="step-text">Usa <span class="inline-code">areamundo [mundo] [radio]</span> (ej: <span class="inline-code">areamundo 69 10</span>) para enviar a ambas facciones al mundo designado.</p><span class="step-tag">TPAREA</span><span class="step-tag">Coordenadas del panel</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">07</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-hourglass-half"></i></span> Anunciar con /adm (5 minutos)</div><p class="step-text">Usa <span class="inline-code">/adm</span> → escribes el mensaje de aviso → seleccionas el mundo del evento.</p><span class="step-tag">/adm → mensaje → mundo</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">08</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-fire"></i></span> Iniciar la ronda</div><p class="step-text">Pulsa <strong>Iniciar Ronda</strong> en el panel. Envía el <span class="inline-code">/adm</span> de inicio. Recuerda: <strong>PROHIBIDO REANIMAR</strong>.</p></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">09</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-trophy"></i></span> Gestionar resultado de rondas</div><p class="step-text">Al terminar cada ronda, pulsa <strong>Gana X</strong> o <strong>Gana Y</strong> en el panel. <strong>Mejor de 3 rondas</strong> (2 victorias para ganar).</p><span class="step-tag">2-3 rondas</span><span class="step-tag">Mejor de 3</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">10</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-camera"></i></span> Foto de ganadores y regreso</div><p class="step-text"><strong>Primero toma la foto del equipo ganador</strong> antes de moverlos. Usa <span class="inline-code">TPAREA</span> para regresar cada sede a sus coordenadas originales.</p><span class="step-tag">Foto ANTES de mover</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">11</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-clipboard-check"></i></span> Finalizar y registrar</div><p class="step-text">Pulsa <strong>"Click para finalizar el asalto"</strong> en el panel. El bot generará los textos para <strong>Hall de la Fama</strong> y <strong>Registro oficial</strong>.</p><span class="step-tag">Hall de la Fama</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 · BOT -->
+<section id="bot">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">05</div>
+      <div class="section-info">
+        <div class="section-label">Discord Bot</div>
+        <h2 class="section-title">Bot de Entretenimiento</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="timeline reveal">
+      <div class="timeline-step"><div class="timeline-num">1</div><div class="timeline-title">Tipo de Asalto</div><div class="timeline-desc">Elige entre Normal, VIP o Custom (Manual).</div></div>
+      <div class="timeline-step"><div class="timeline-num">2</div><div class="timeline-title">Sede + Facciones</div><div class="timeline-desc">Selecciona sede, defensores y atacantes con capacidad.</div></div>
+      <div class="timeline-step"><div class="timeline-num">3</div><div class="timeline-title">Organizadores</div><div class="timeline-desc">Agrega los admins/miembros ENT a cargo del evento.</div></div>
+    </div>
+    <div class="alert alert-gold reveal">
+      <span class="alert-icon"><i class="fa-solid fa-info-circle"></i></span>
+      <p class="alert-text">Las <strong>Coordenadas de [Sede]</strong> al final son las posiciones ORIGINALES de cada facción. Se usan al final del asalto para regresarlas con TPAREA.</p>
+    </div>
+    <div class="reveal" style="margin-top:1.5rem">
+      <h3 style="font-size:1.15rem;color:var(--white);margin-bottom:1rem;font-family:'Space Grotesk',sans-serif;font-weight:600">Botones del Panel</h3>
+      <div class="buttons-grid">
+        <div class="btn-item"><div class="btn-name"><i class="fa-solid fa-trophy" style="color:var(--accent);margin-right:.3rem"></i>Gana X / Gana Y</div><div class="btn-desc">Registra qué equipo ganó la ronda y actualiza el marcador.</div></div>
+        <div class="btn-item"><div class="btn-name"><i class="fa-solid fa-rotate-left" style="color:var(--text-secondary);margin-right:.3rem"></i>Deshacer Ronda</div><div class="btn-desc">Revierte el último resultado si hubo error.</div></div>
+        <div class="btn-item"><div class="btn-name"><i class="fa-solid fa-arrows-rotate" style="color:var(--cyan);margin-right:.3rem"></i>Refrescar</div><div class="btn-desc">Actualiza el panel con el estado más reciente.</div></div>
+        <div class="btn-item"><div class="btn-name"><i class="fa-solid fa-fire" style="color:var(--primary);margin-right:.3rem"></i>Iniciar Ronda</div><div class="btn-desc">Lanza la ronda. Usar junto con /adm de inicio.</div></div>
+        <div class="btn-item"><div class="btn-name"><i class="fa-solid fa-clock" style="color:var(--accent);margin-right:.3rem"></i>5 Minutos</div><div class="btn-desc">Alerta de preparación de 5 minutos.</div></div>
+        <div class="btn-item"><div class="btn-name"><i class="fa-solid fa-scroll" style="color:var(--text-secondary);margin-right:.3rem"></i>Reglas</div><div class="btn-desc">Envía las reglas al mundo del evento.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 · COMANDO ADM -->
+<section id="comando-adm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">06</div>
+      <div class="section-info">
+        <div class="section-label">Staff</div>
+        <h2 class="section-title">Comando /adm</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.8;margin-bottom:1.5rem;">
+        El comando <span class="inline-code">/adm</span> es la herramienta principal para comunicarte con los jugadores dentro del juego. Permite enviar <strong style="color:var(--white)">mensajes oficiales de administrador</strong> que aparecen en pantalla para todos los jugadores en un mundo específico.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 · COMANDOS -->
+<section id="comandos">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">07</div>
+      <div class="section-info">
+        <div class="section-label">Herramientas</div>
+        <h2 class="section-title">Comandos de Consola</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="cmd-grid reveal">
+      <div class="cmd-item"><div class="cmd-code">WALL</div><div><div class="cmd-info-name">Ver a través de paredes</div><div class="cmd-info-desc">Muestra información de jugadores a través de superficies.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">NC</div><div><div class="cmd-info-name">Modo Noclip</div><div class="cmd-info-desc">Permite volar libremente por el mapa.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">areamundo 69 10</div><div><div class="cmd-info-name">Crear mundo</div><div class="cmd-info-desc">Crea un mundo aislado para eventos.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">TPAREA</div><div><div class="cmd-info-name">Teletransportar área</div><div class="cmd-info-desc">Mueve todos los jugadores de un área a una ubicación.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">/areamundo 1 100</div><div><div class="cmd-info-name">Volver al mundo 1</div><div class="cmd-info-desc">Regresa a todos los jugadores al mundo principal.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 · SEDES -->
+<section id="sedes">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">08</div>
+      <div class="section-info">
+        <div class="section-label">Ubicaciones</div>
+        <h2 class="section-title">Sedes Disponibles</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="sedes-grid reveal">
+      <div class="sede-card"><div class="sede-name">KAOS</div><div class="sede-cap">15 vs 15</div><div class="sede-desc">Sede principal de eventos competitivos.</div></div>
+      <div class="sede-card"><div class="sede-name">CORLEONE</div><div class="sede-cap">15 vs 15</div><div class="sede-desc">Sede clásica para enfrentamientos equilibrados.</div></div>
+      <div class="sede-card"><div class="sede-name">VANILLA</div><div class="sede-cap">10 vs 10</div><div class="sede-desc">Sede compacta para eventos medianos.</div></div>
+      <div class="sede-card"><div class="sede-name">ANONIMATO</div><div class="sede-cap">20 vs 20</div><div class="sede-desc">Gran sede para eventos masivos.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · PLANTILLAS -->
+<section id="plantillas">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">09</div>
+      <div class="section-info">
+        <div class="section-label">Recursos</div>
+        <h2 class="section-title">Plantillas</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="templates-grid reveal">
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-triangle-exclamation" style="color:var(--primary);margin-right:.4rem"></i>ALERTA LEÓN</span><span class="template-type">PAUSA DEL EVENTO</span></div><div class="template-body">🛑 [ALERTA LEON]
+El evento está en PAUSA temporal.
+Líderes de facción → Soporte Entretenimiento por favor.
+Mantengan sus posiciones.</div></div>
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-fire" style="color:var(--primary);margin-right:.4rem"></i>INICIO DE RONDA</span><span class="template-type">AL PULSAR "INICIAR RONDA"</span></div><div class="template-body">🔥 [INICIO DE RONDA X]
+¡Que comience el combate!
+Reglas: PROHIBIDO REANIMAR
+Suerte a ambos bandos 🔥</div></div>
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-flag-checkered" style="color:var(--success);margin-right:.4rem"></i>FIN DE RONDA</span><span class="template-type">AL PULSAR "GANA X/Y"</span></div><div class="template-body">🔥 ¡RONDA X FINALIZADA!
+GANADOR: [FACCIÓN]
+Marcador: [X] - [Y]
+Próxima ronda en breve...</div></div>
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-trophy" style="color:var(--accent);margin-right:.4rem"></i>GANADOR</span><span class="template-type">FINAL DEL EVENTO</span></div><div class="template-body">🏆 ¡EVENTO FINALIZADO!
+GANADOR: [FACCIÓN]
+Gracias a todos por participar.
+Volverán al mundo principal.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · REGISTRO -->
+<section id="registro">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">10</div>
+      <div class="section-info">
+        <div class="section-label">Documentación</div>
+        <h2 class="section-title">Registro Oficial</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal">
+      <p style="font-size:.9rem;color:var(--text-secondary);margin-bottom:1.5rem;">Después de cada evento, genera el registro para el Hall de la Fama y Staff Real:</p>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-left:3px solid var(--accent);padding:1.5rem;font-family:'JetBrains Mono',monospace;font-size:.83rem;line-height:2">
+<span style="color:var(--text-muted)">Fecha: </span><span style="color:var(--accent)">13/04/2026</span><br>
+<span style="color:var(--text-muted)">Tipo: </span><span style="color:var(--accent)">Asalto a Sede</span><br>
+<span style="color:var(--text-muted)">Sede: </span><span style="color:var(--accent)">KAOS</span><br>
+<span style="color:var(--text-muted)">Ganador: </span><span style="color:var(--primary);font-weight:600">ANONIMATO</span><br>
+<span style="color:var(--text-muted)">Marcador: </span><span style="color:var(--accent)">2 - 1</span><br>
+<span style="color:var(--text-muted)">Organizadores: </span><span style="color:var(--accent)">@Angelo, @ usuario2</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · PRÁCTICAS -->
+<section id="practicas">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">11</div>
+      <div class="section-info">
+        <div class="section-label">Workflow</div>
+        <h2 class="section-title">Mejores Prácticas</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="practices-grid reveal">
+      <div class="practice-card"><span class="practice-icon" style="color:var(--primary-light)"><i class="fa-solid fa-clipboard-list"></i></span><div class="practice-title">Preparación</div><ul class="practice-list"><li>Verificar uniformes antes de iniciar.</li><li>Confirmar jugadores en ambos bandos.</li><li>Revisar coordenadas del panel.</li><li>Probar /adm antes del evento.</li></ul></div>
+      <div class="practice-card"><span class="practice-icon" style="color:var(--primary-light)"><i class="fa-solid fa-users"></i></span><div class="practice-title">Durante el evento</div><ul class="practice-list"><li>Mantén comunicación con ambos bandos.</li><li>Usa /adm para anuncios claros.</li><li>Supervisa que no haya resub.</li><li>Documenta el progreso.</li></ul></div>
+      <div class="practice-card"><span class="practice-icon" style="color:var(--primary-light)"><i class="fa-solid fa-flag-checkered"></i></span><div class="practice-title">Cierre del evento</div><ul class="practice-list"><li>NUNCA olvides regresar a los jugadores a sus mundos.</li><li>Foto de ganadores ANTES de moverlos.</li><li>Hall de la Fama y Registro el mismo día.</li><li>Revisa que el registro esté completo antes de cerrar.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · RETENCIÓN -->
+<section id="retencion">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">12</div>
+      <div class="section-info">
+        <div class="section-label">Estrategia</div>
+        <h2 class="section-title">Retención de Mafias</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-bottom:2rem">
+      <p style="font-size:1rem;color:var(--text-secondary);line-height:1.8;max-width:800px;">
+        Los miembros no se quedan por los rangos, se quedan por la <strong style="color:var(--white)">experiencia</strong>. Una mafia que no cuida a sus miembros pierde gente rápido.
+      </p>
+    </div>
+    <div class="practices-grid reveal">
+      <div class="practice-card"><span class="practice-icon" style="color:var(--primary-light)"><i class="fa-solid fa-hand-holding-heart"></i></span><div class="practice-title">Comunicación Activa</div><ul class="practice-list"><li>Chat de mafia activo diario</li><li>Respuesta en menos de 24h</li><li>Feedback positivo constante</li></ul></div>
+      <div class="practice-card"><span class="practice-icon" style="color:var(--primary-light)"><i class="fa-solid fa-gift"></i></span><div class="practice-title">Beneficios Exclusivos</div><ul class="practice-list"><li>Acceso prioritario a eventos</li><li>Recompensas por actividad</li><li>Privilegios solo para miembros</li></ul></div>
+      <div class="practice-card"><span class="practice-icon" style="color:var(--primary-light)"><i class="fa-solid fa-users"></i></span><div class="practice-title">Evento Interno</div><ul class="practice-list"><li>Reuniones semanales</li><li>Actividades sociales</li><li>Competencias entre miembros</li></ul></div>
+      <div class="practice-card"><span class="practice-icon" style="color:var(--primary-light)"><i class="fa-solid fa-star"></i></span><div class="practice-title">Reconocimiento</div><ul class="practice-list"><li>Ascensos merecidos</li><li>Menciones públicas</li><li>"Miembro del mes"</li></ul></div>
+    </div>
+    <div class="alert reveal" style="margin-top:2rem">
+      <span class="alert-icon"><i class="fa-solid fa-triangle-exclamation"></i></span>
+      <p class="alert-text"><strong>Regla de oro:</strong> Si un miembro lleva 3 días sin conectarse, contactarlo. Si lleva 7 días, preguntar si todo bien. La mayoría de las bajas se evitan con una simple pregunta.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TOC FLOTANTE -->
+<div class="toc-float">
+  <div class="toc-title">Contenido</div>
+  <ul class="toc-list" id="tocList"></ul>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-symbol"><i class="fa-solid fa-shield-halved"></i></div>
+    <div class="footer-name">Departamento de Entretenimiento</div>
+    <div class="footer-motto">Enseñar · Acompañar · Supervisar · Delegar</div>
+    <div style="width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--primary),transparent);margin:.75rem auto 1rem"></div>
+    <div class="footer-meta">Guía Oficial v1.0 · RealRP 2026 · Uso Exclusivo Interno del Departamento ENT</div>
+  </div>
+</footer>
+
+<script>
+// Header
+const header=document.getElementById('header');
+window.addEventListener('scroll',()=>header.classList.toggle('visible',window.scrollY>100));
+
+// Particles
+const particlesEl=document.getElementById('particles')||document.createElement('div');
+for(let i=0;i<15;i++){
+  const p=document.createElement('div');
+  p.style.cssText=`position:fixed;width:2px;height:2px;background:var(--primary);border-radius:50%;left:${Math.random()*100}%;bottom:-10px;opacity:0;animation:floatUp ${8+Math.random()*10}s linear infinite;animation-delay:${Math.random()*5}s`;
+  document.body.appendChild(p);
+}
+
+// Reveal
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Scroll arrow
+document.querySelector('.scroll-arrow')?.addEventListener('click',()=>window.scrollTo({top:window.innerHeight,behavior:'smooth'}));
+
+// TOC
+const tocList=document.getElementById('tocList');
+document.querySelectorAll('section').forEach(sec=>{
+  const id=sec.id;
+  if(!id)return;
+  const title=sec.querySelector('.section-title')?.textContent||id;
+  const li=document.createElement('li');
+  li.innerHTML=`<a href="#${id}">${title}</a>`;
+  tocList.appendChild(li);
+});
+
+// Search
+const searchInput=document.getElementById('searchInput');
+const searchResults=document.getElementById('searchResults');
+const sectionsData=[];
+document.querySelectorAll('section').forEach(sec=>{
+  const id=sec.id;if(!id)return;
+  const title=sec.querySelector('.section-title')?.textContent||id;
+  const text=sec.innerText||'';
+  sectionsData.push({id,title,text});
+});
+searchInput?.addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  if(q.length<2){searchResults?.classList.remove('active');return;}
+  const results=sectionsData.filter(s=>s.title.toLowerCase().includes(q)||s.text.toLowerCase().includes(q)).slice(0,5);
+  if(results.length===0){searchResults.innerHTML='<div style="padding:1rem;color:var(--text-muted)">Sin resultados</div>';}
+  else{searchResults.innerHTML=results.map(r=>`<div class="search-result" onclick="document.getElementById('${r.id}')?.scrollIntoView({behavior:'smooth'});searchResults.classList.remove('active');searchInput.value=''"><div class="search-result-title">${r.title}</div></div>`).join('');}
+  searchResults.classList.add('active');
+});
+
+// Keyboard
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')searchResults?.classList.remove('active');
+  if(e.key==='/'&&!e.target.matches('input,textarea')){e.preventDefault();searchInput?.focus();}
+});
+</script>
+</body>
+</html>
