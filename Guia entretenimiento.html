@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENT — Guía Oficial Completa de Eventos</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --red:#e63946;--red-dark:#9b1c27;--red-glow:#ff6b7a;
+  --gold:#f4a820;--gold-dim:#a06e10;
+  --bg:#080a0d;--bg2:#0e1117;--bg3:#141820;--bg4:#1a2030;
+  --border:#1e2535;--border2:#2a3347;
+  --text:#d4dbe8;--text-dim:#6b7a94;--text-muted:#3d4d66;
+  --white:#fff;--green:#2ecc71;--cyan:#48cae4;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;font-size:15px;line-height:1.6;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.35}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:0}
+
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:2rem}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(230,57,70,.10) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 80% 20%,rgba(244,168,32,.05) 0%,transparent 60%),linear-gradient(180deg,#0a0d13 0%,#050709 100%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(230,57,70,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(230,57,70,.06) 1px,transparent 1px);background-size:60px 60px;animation:gridMove 20s linear infinite}
+@keyframes gridMove{from{transform:translateY(0)}to{transform:translateY(60px)}}
+.hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.particle{position:absolute;width:2px;height:2px;background:var(--red);border-radius:50%;opacity:0;animation:floatUp linear infinite}
+@keyframes floatUp{0%{opacity:0;transform:translateY(0) scale(1)}10%{opacity:.6}90%{opacity:.3}100%{opacity:0;transform:translateY(-100vh) scale(.3)}}
+.bracket{position:absolute;width:80px;height:80px;border-color:var(--red);border-style:solid;opacity:.4}
+.bracket-tl{top:20px;left:20px;border-width:2px 0 0 2px}
+.bracket-tr{top:20px;right:20px;border-width:2px 2px 0 0}
+.bracket-bl{bottom:20px;left:20px;border-width:0 0 2px 2px}
+.bracket-br{bottom:20px;right:20px;border-width:0 2px 2px 0}
+.hero-content{position:relative;z-index:1;text-align:center;max-width:900px}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(230,57,70,.12);border:1px solid rgba(230,57,70,.3);padding:.35rem 1.2rem;border-radius:2px;font-family:'Share Tech Mono',monospace;font-size:.72rem;letter-spacing:.15em;color:var(--red-glow);margin-bottom:2rem;animation:fadeDown .8s ease both}
+.hero-badge::before{content:'▶';font-size:.55rem}
+.hero-dept{font-family:'Barlow',sans-serif;font-weight:300;font-size:clamp(1rem,2.5vw,1.3rem);letter-spacing:.5em;color:var(--text-dim);text-transform:uppercase;margin-bottom:.5rem;animation:fadeDown 1s .15s ease both}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.5rem,11vw,9rem);line-height:.88;color:var(--white);letter-spacing:-.01em;animation:fadeDown 1s .3s ease both;text-shadow:0 0 80px rgba(230,57,70,.3)}
+.hero-title span{color:var(--red);display:block;text-shadow:0 0 40px rgba(230,57,70,.6)}
+.hero-sub{font-size:clamp(.78rem,1.6vw,.9rem);color:var(--text-dim);letter-spacing:.15em;text-transform:uppercase;margin-top:1.2rem;animation:fadeDown 1s .45s ease both}
+.hero-line{width:180px;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);margin:1.8rem auto;animation:fadeIn 1s .6s ease both}
+.hero-meta{display:flex;justify-content:center;gap:2rem;font-family:'Share Tech Mono',monospace;font-size:.66rem;color:var(--text-muted);letter-spacing:.1em;animation:fadeIn 1s .75s ease both}
+.hero-meta span{display:flex;align-items:center;gap:.4rem}
+.hero-meta span::before{content:'◆';color:var(--red);font-size:.5rem}
+.scroll-indicator{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;animation:pulse 2s ease infinite;z-index:1}
+.scroll-indicator span{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.15em;color:var(--text-muted)}
+.scroll-arrow{width:14px;height:14px;border-right:2px solid var(--red);border-bottom:2px solid var(--red);transform:rotate(45deg);animation:arrowBounce 1.5s ease infinite}
+@keyframes arrowBounce{0%,100%{transform:rotate(45deg) translateY(0)}50%{transform:rotate(45deg) translateY(5px)}}
+
+.container{max-width:1100px;margin:0 auto;padding:0 2rem;position:relative;z-index:1}
+section{padding:5rem 0;border-bottom:1px solid var(--border)}
+.section-header{display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:3rem}
+.section-num{font-family:'Bebas Neue',sans-serif;font-size:4.5rem;line-height:1;color:var(--red-dark);opacity:.45;user-select:none;min-width:70px;text-align:right}
+.section-info{flex:1}
+.section-label{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--red);text-transform:uppercase;margin-bottom:.3rem}
+.section-title{font-family:'Rajdhani',sans-serif;font-size:clamp(1.6rem,4vw,2.5rem);font-weight:700;color:var(--white);line-height:1.1}
+.section-line{width:100%;height:1px;background:linear-gradient(90deg,var(--red) 0%,transparent 60%);margin-top:.75rem}
+
+.roles-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.role-card{background:var(--bg2);padding:1.5rem;position:relative;overflow:hidden;transition:background .25s;cursor:default}
+.role-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--red);transition:height .35s ease}
+.role-card:hover{background:var(--bg3)}
+.role-card:hover::before{height:100%}
+.role-abbr{font-family:'Share Tech Mono',monospace;font-size:1.4rem;color:var(--gold);letter-spacing:.05em;margin-bottom:.3rem}
+.role-name{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:1.1rem;color:var(--white);margin-bottom:.5rem}
+.role-desc{font-size:.85rem;color:var(--text-dim);line-height:1.5}
+.role-hierarchy{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-muted);margin-top:.5rem;letter-spacing:.05em}
+
+.uniform-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem}
+.uniform-card{background:var(--bg3);border:1px solid var(--border2);padding:1.8rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.uniform-card:hover{border-color:var(--red);transform:translateY(-3px)}
+.uniform-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--red),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .4s ease}
+.uniform-card:hover::after{transform:scaleX(1)}
+.uniform-icon{font-size:2.5rem;margin-bottom:.8rem;display:block;color:var(--red-glow)}
+.uniform-label{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.2em;color:var(--text-muted);text-transform:uppercase;margin-bottom:.3rem}
+.uniform-type{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.2rem;color:var(--white);margin-bottom:.5rem}
+.uniform-id{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;color:var(--red);line-height:1;text-shadow:0 0 20px rgba(230,57,70,.4)}
+.uniform-note{font-size:.8rem;color:var(--text-dim);margin-top:.5rem}
+
+.channel-list{display:flex;flex-direction:column;gap:.75rem}
+.channel-item{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:1.2rem;background:var(--bg2);border:1px solid var(--border);border-left:3px solid var(--red-dark);padding:1rem 1.4rem;transition:border-color .25s,background .25s,transform .25s}
+.channel-item:hover{border-left-color:var(--red);background:var(--bg3);transform:translateX(4px)}
+.channel-item.priority-high{border-left-color:var(--red)}
+.channel-item.priority-med{border-left-color:var(--gold)}
+.channel-item.priority-low{border-left-color:var(--text-muted)}
+.channel-hash{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--red-dark);width:28px;text-align:center}
+.channel-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.05rem;color:var(--white)}
+.channel-desc{font-size:.83rem;color:var(--text-dim);margin-top:.15rem}
+.channel-badge{font-family:'Share Tech Mono',monospace;font-size:.63rem;padding:.25rem .6rem;border-radius:2px;white-space:nowrap}
+.badge-high{background:rgba(230,57,70,.15);color:var(--red-glow);border:1px solid rgba(230,57,70,.3)}
+.badge-med{background:rgba(244,168,32,.12);color:var(--gold);border:1px solid rgba(244,168,32,.3)}
+.badge-low{background:rgba(107,122,148,.1);color:var(--text-dim);border:1px solid var(--border)}
+
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:grid;grid-template-columns:70px 1fr;position:relative}
+.step::after{content:'';position:absolute;left:34px;top:56px;bottom:-1px;width:2px;background:linear-gradient(180deg,var(--red-dark),transparent)}
+.step:last-child::after{display:none}
+.step-num-wrap{display:flex;flex-direction:column;align-items:center;padding-top:1rem}
+.step-num{width:36px;height:36px;border:2px solid var(--red);display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--red);background:var(--bg);position:relative;z-index:1;transition:background .3s,color .3s}
+.step:hover .step-num{background:var(--red);color:var(--white)}
+.step-body{padding:1rem 0 2rem 1.5rem}
+.step-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.15rem;color:var(--white);margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem}
+.step-title .step-icon{font-size:1rem}
+.step-text{font-size:.9rem;color:var(--text-dim);line-height:1.65}
+.step-text strong{color:var(--text)}
+.step-tag{display:inline-block;background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.25);color:var(--red-glow);font-family:'Share Tech Mono',monospace;font-size:.68rem;padding:.15rem .5rem;border-radius:2px;margin:.3rem .2rem 0 0}
+
+.bot-timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:2rem}
+.bot-step{background:var(--bg2);padding:1.5rem;text-align:center;position:relative;transition:background .25s}
+.bot-step:hover{background:var(--bg3)}
+.bot-step::after{content:'\f054';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;right:-10px;top:50%;transform:translateY(-50%);color:var(--red-dark);font-size:.7rem;z-index:2}
+.bot-step:last-child::after{display:none}
+.bot-step-num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--red);opacity:.4;line-height:1}
+.bot-step-title{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--white);font-size:1rem;margin:.3rem 0}
+.bot-step-desc{font-size:.78rem;color:var(--text-dim);line-height:1.5}
+
+.panel-preview{background:var(--bg2);border:1px solid var(--border2);border-top:3px solid var(--red);padding:1.5rem;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--text);line-height:1.85;position:relative;overflow:hidden}
+.panel-preview::before{content:'PANEL EN VIVO';position:absolute;top:.5rem;right:1rem;font-size:.58rem;letter-spacing:.15em;color:var(--text-muted)}
+.panel-preview .ph{color:var(--text-dim)}
+.panel-preview .pr{color:var(--red-glow)}
+.panel-preview .pg{color:var(--green)}
+.panel-preview .py{color:var(--gold)}
+.panel-preview .pw{color:var(--white);font-weight:600}
+
+.buttons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;margin-top:1.5rem}
+.btn-item{background:var(--bg3);border:1px solid var(--border2);padding:.9rem 1rem;transition:border-color .25s,background .25s;cursor:default}
+.btn-item:hover{border-color:var(--red);background:var(--bg4)}
+.btn-item-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;color:var(--white);margin-bottom:.2rem}
+.btn-item-desc{font-size:.78rem;color:var(--text-dim);line-height:1.4}
+
+.adm-flow{background:var(--bg2);border:1px solid var(--border2);overflow:hidden;margin:2rem 0}
+.adm-flow-header{background:var(--bg3);padding:.85rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.7rem}
+.adm-flow-header i{color:var(--red);font-size:.9rem}
+.adm-flow-header span{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:var(--white)}
+.adm-flow-steps{display:flex;flex-direction:column}
+.adm-flow-step{display:grid;grid-template-columns:50px 1fr;position:relative}
+.adm-flow-step:not(:last-child)::after{content:'';position:absolute;left:24px;top:50px;bottom:0;width:2px;background:var(--border)}
+.adm-flow-step-icon{display:flex;align-items:flex-start;justify-content:center;padding-top:1.2rem}
+.adm-flow-step-icon .circle{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;position:relative;z-index:1}
+.circle-red{background:rgba(230,57,70,.15);color:var(--red);border:2px solid var(--red)}
+.circle-gold{background:rgba(244,168,32,.12);color:var(--gold);border:2px solid var(--gold)}
+.adm-flow-step-body{padding:1.2rem 1.4rem 1.8rem 1rem}
+.adm-flow-step-label{font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.4rem}
+.label-red{color:var(--red-glow)}
+.label-gold{color:var(--gold)}
+.adm-flow-step-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.2rem;color:var(--white);margin-bottom:.6rem}
+.adm-flow-step-desc{font-size:.88rem;color:var(--text-dim);line-height:1.6}
+
+.adm-sim{background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-top:1rem}
+.adm-sim-titlebar{background:var(--bg3);padding:.5rem .8rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid var(--border)}
+.adm-sim-dot{width:8px;height:8px;border-radius:50%}
+.adm-sim-dot.r{background:var(--red)}
+.adm-sim-dot.y{background:var(--gold)}
+.adm-sim-dot.g{background:var(--green)}
+.adm-sim-titlebar span{font-family:'Share Tech Mono',monospace;font-size:.62rem;color:var(--text-muted);margin-left:.3rem}
+.adm-sim-body{padding:1.2rem;font-family:'Share Tech Mono',monospace;font-size:.8rem;line-height:1.9}
+.adm-sim-input{color:var(--text-dim);margin-bottom:.3rem}
+.adm-sim-input .cmd-text{color:var(--white)}
+.adm-sim-result{background:rgba(230,57,70,.05);border:1px solid rgba(230,57,70,.15);border-left:3px solid var(--red);padding:.8rem 1rem;margin-top:.8rem;line-height:1.8}
+.adm-sim-result .ar{color:var(--red-glow)}
+.adm-world-selector{background:rgba(244,168,32,.05);border:1px solid rgba(244,168,32,.15);border-left:3px solid var(--gold);padding:.8rem 1rem;margin-top:.8rem}
+.adm-world-selector .aw{color:var(--white)}
+.adm-world-selector .ay{color:var(--gold)}
+.adm-world-selector .ad{color:var(--text-dim)}
+
+.adm-examples{display:flex;flex-direction:column;gap:1rem;margin-top:2rem}
+.adm-example{background:var(--bg2);border:1px solid var(--border);overflow:hidden;transition:border-color .25s}
+.adm-example:hover{border-color:var(--border2)}
+.adm-example-header{background:var(--bg3);padding:.7rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem}
+.adm-example-header .ae-icon{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:rgba(230,57,70,.12);border-radius:2px;font-size:.8rem}
+.adm-example-header span{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;color:var(--white)}
+.adm-example-header .ae-when{margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--text-muted);letter-spacing:.08em}
+.adm-example-body{padding:1rem 1.2rem;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--text);line-height:1.9;white-space:pre-wrap}
+
+.cmd-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.cmd-item{background:var(--bg2);padding:1rem 1.3rem;display:flex;gap:1rem;align-items:flex-start;transition:background .2s}
+.cmd-item:hover{background:var(--bg3)}
+.cmd-code{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--gold);background:rgba(244,168,32,.08);border:1px solid rgba(244,168,32,.2);padding:.3rem .6rem;white-space:nowrap;flex-shrink:0;min-width:120px;text-align:center;line-height:1.4}
+.cmd-info-name{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:.95rem;color:var(--white)}
+.cmd-info-desc{font-size:.8rem;color:var(--text-dim);line-height:1.5;margin-top:.15rem}
+
+.sedes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.sede-card{background:var(--bg2);border:1px solid var(--border);padding:2rem 1.5rem;text-align:center;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.sede-card:hover{border-color:var(--red);transform:translateY(-5px)}
+.sede-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.sede-card:hover::before{transform:scaleX(1)}
+.sede-name{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--white);letter-spacing:.05em;margin-bottom:.5rem}
+.sede-cap{font-family:'Share Tech Mono',monospace;font-size:1.1rem;color:var(--red);margin-bottom:.4rem}
+.sede-desc{font-size:.8rem;color:var(--text-dim)}
+
+.templates-grid{display:flex;flex-direction:column;gap:1.2rem}
+.template-card{background:var(--bg2);border:1px solid var(--border);overflow:hidden;transition:border-color .25s}
+.template-card:hover{border-color:var(--border2)}
+.template-header{background:var(--bg3);padding:.75rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.template-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:.95rem;color:var(--gold)}
+.template-type{font-family:'Share Tech Mono',monospace;font-size:.6rem;letter-spacing:.1em;color:var(--text-muted)}
+.template-body{padding:1rem 1.2rem;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:var(--text);line-height:1.9;white-space:pre-wrap}
+
+.registro-preview{background:var(--bg2);border:1px solid var(--border2);border-left:3px solid var(--gold);padding:1.5rem;font-family:'Share Tech Mono',monospace;font-size:.83rem;line-height:2;color:var(--text)}
+.registro-preview .lk{color:var(--gold)}
+.registro-preview .lv{color:var(--text-dim)}
+.registro-preview .lhigh{color:var(--red-glow);font-weight:600}
+
+.practices-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.practice-card{background:var(--bg2);border:1px solid var(--border);padding:1.5rem;transition:border-color .25s,background .25s}
+.practice-card:hover{border-color:var(--border2);background:var(--bg3)}
+.practice-icon{font-size:1.8rem;margin-bottom:.75rem;display:block}
+.practice-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:var(--white);margin-bottom:.75rem}
+.practice-list{list-style:none}
+.practice-list li{font-size:.83rem;color:var(--text-dim);line-height:1.6;padding:.3rem 0 .3rem 1rem;border-bottom:1px solid var(--border);position:relative}
+.practice-list li::before{content:'\f054';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;left:0;color:var(--red);font-size:.5rem;top:50%;transform:translateY(-50%)}
+.practice-list li:last-child{border-bottom:none}
+
+.alert{display:flex;gap:1rem;align-items:flex-start;background:rgba(230,57,70,.06);border:1px solid rgba(230,57,70,.2);border-left:3px solid var(--red);padding:1rem 1.2rem;margin:1.5rem 0}
+.alert-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem}
+.alert-text{font-size:.88rem;color:var(--text-dim);line-height:1.6}
+.alert-text strong{color:var(--text)}
+.alert-gold{background:rgba(244,168,32,.06);border-color:rgba(244,168,32,.2);border-left-color:var(--gold)}
+.alert-cyan{background:rgba(72,202,228,.04);border-color:rgba(72,202,228,.15);border-left-color:var(--cyan)}
+
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{background:var(--bg3);color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;padding:.75rem 1rem;text-align:left;border-bottom:2px solid var(--red-dark)}
+.data-table td{padding:.75rem 1rem;font-size:.87rem;color:var(--text-dim);border-bottom:1px solid var(--border);vertical-align:top}
+.data-table tr:nth-child(even) td{background:rgba(255,255,255,.015)}
+.data-table tr:hover td{background:var(--bg3)}
+.data-table td strong{color:var(--text)}
+
+.inline-code{font-family:'Share Tech Mono',monospace;font-size:.8rem;color:var(--gold);background:rgba(244,168,32,.08);border:1px solid rgba(244,168,32,.15);padding:.1rem .4rem;border-radius:2px}
+.sub-heading{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.25rem;color:var(--white);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
+.sub-heading .sh-icon{color:var(--gold);font-size:.9rem}
+.highlight-box{background:var(--bg3);border:1px solid var(--border2);padding:1.2rem 1.5rem;margin:1.5rem 0;font-size:.9rem;color:var(--text-dim);line-height:1.7}
+.highlight-box strong{color:var(--text)}
+
+.event-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:1.5rem 0}
+.event-card{background:var(--bg2);padding:1.5rem;transition:background .25s}
+.event-card:hover{background:var(--bg3)}
+.event-card-icon{font-size:1.6rem;margin-bottom:.6rem;display:block;color:var(--red-glow)}
+.event-card-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.1rem;color:var(--white);margin-bottom:.4rem}
+.event-card-desc{font-size:.82rem;color:var(--text-dim);line-height:1.5}
+.event-card-mode{font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--gold);margin-top:.5rem}
+
+.role-assign-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:1.5rem}
+.role-assign-card{background:var(--bg2);padding:1.3rem;transition:background .25s}
+.role-assign-card:hover{background:var(--bg3)}
+.role-assign-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1rem;color:var(--white);margin-bottom:.3rem}
+.role-assign-who{font-family:'Share Tech Mono',monospace;font-size:.65rem;color:var(--gold);letter-spacing:.05em;margin-bottom:.4rem}
+.role-assign-desc{font-size:.8rem;color:var(--text-dim);line-height:1.5}
+
+footer{padding:4rem 0;text-align:center;position:relative;z-index:1}
+.footer-symbol{font-size:2rem;color:var(--red-dark);opacity:.35;margin-bottom:.5rem}
+.footer-name{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.2rem;color:var(--white);letter-spacing:.3em;text-transform:uppercase;margin-bottom:.4rem}
+.footer-motto{font-family:'Share Tech Mono',monospace;font-size:.73rem;color:var(--text-muted);letter-spacing:.1em;margin-bottom:1rem}
+.footer-meta{font-size:.73rem;color:var(--text-muted)}
+
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+.nav{position:fixed;top:0;left:0;right:0;background:rgba(8,10,13,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);z-index:100;padding:.7rem 2rem;display:flex;align-items:center;justify-content:space-between;transform:translateY(-100%);transition:transform .4s ease}
+.nav.visible{transform:translateY(0)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--red);letter-spacing:.05em}
+.nav-links{display:flex;gap:1.4rem;list-style:none;flex-wrap:wrap}
+.nav-links a{font-family:'Share Tech Mono',monospace;font-size:.62rem;letter-spacing:.06em;color:var(--text-muted);text-decoration:none;transition:color .2s;white-space:nowrap}
+.nav-links a:hover{color:var(--red-glow)}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--red),var(--gold));z-index:200;width:0%;transition:width .1s linear}
+
+@media(max-width:700px){
+  .bot-timeline{grid-template-columns:1fr}.bot-step::after{display:none}
+  .uniform-row{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .cmd-grid{grid-template-columns:1fr}
+  .section-num{font-size:3rem;min-width:50px}
+  .event-summary{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<nav class="nav" id="topnav">
+  <div class="nav-logo"><i class="fa-solid fa-shield-halved" style="margin-right:.4rem"></i>ENT</div>
+  <ul class="nav-links">
+    <li><a href="#roles">Roles</a></li>
+    <li><a href="#canales">Canales</a></li>
+    <li><a href="#asalto">Asalto</a></li>
+    <li><a href="#bot">Bot</a></li>
+    <li><a href="#comando-adm">/adm</a></li>
+    <li><a href="#comandos">Comandos</a></li>
+    <li><a href="#sedes">Sedes</a></li>
+    <li><a href="#plantillas">Plantillas</a></li>
+    <li><a href="#registro">Registro</a></li>
+    <li><a href="#practicas">Prácticas</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="bracket bracket-tl"></div>
+  <div class="bracket bracket-tr"></div>
+  <div class="bracket bracket-bl"></div>
+  <div class="bracket bracket-br"></div>
+  <div class="hero-content">
+    <div class="hero-badge">DEPARTAMENTO OFICIAL — REALRP 2026</div>
+    <p class="hero-dept">Entretenimiento</p>
+    <h1 class="hero-title">GUIA<span>OFICIAL DE</span>EVENTOS</h1>
+    <p class="hero-sub">Asaltos a Sede · Battle Royale · Rey del Crimen · Eventos Customs</p>
+    <div class="hero-line"></div>
+    <div class="hero-meta">
+      <span>Versión 1.0</span>
+      <span>Abril 2026</span>
+      <span>Uso Interno ENT</span>
+    </div>
+  </div>
+  <div class="scroll-indicator"><span>DESPLAZAR</span><div class="scroll-arrow"></div></div>
+</div>
+
+<!-- 01 · INTRO -->
+<section id="intro">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">01</div>
+      <div class="section-info">
+        <div class="section-label">Overview</div>
+        <h2 class="section-title">Departamento de Entretenimiento</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <p style="font-size:1rem;color:var(--text-dim);line-height:1.75;max-width:780px;margin-bottom:1.5rem;">
+        El <strong style="color:var(--white)">Departamento de Entretenimiento (ENT)</strong> es la unidad operativa encargada de planificar, coordinar y ejecutar todos los eventos competitivos de gran escala dentro del servidor RealRP. Su función es proporcionar experiencias de enfrentamiento controlado entre facciones, garantizando fair play, orden y documentación oficial.
+      </p>
+      <p style="font-size:.9rem;color:var(--text-dim);line-height:1.75;max-width:780px;">
+        Todos los eventos se realizan en <strong style="color:var(--white)">mundos aislados</strong> del servidor, lo que significa que los participantes son trasladados a un espacio independiente que no interfere con la jugabilidad del resto de los usuarios.
+      </p>
+    </div>
+    <div class="event-summary reveal" style="transition-delay:.2s">
+      <div class="event-card">
+        <span class="event-card-icon"><i class="fa-solid fa-building-shield"></i></span>
+        <div class="event-card-name">Asalto a Sede</div>
+        <div class="event-card-desc">Enfrentamiento entre 2 mafias en una sede controlada.</div>
+        <div class="event-card-mode">MODALIDAD: MEJOR DE 3 RONDAS</div>
+      </div>
+      <div class="event-card">
+        <span class="event-card-icon"><i class="fa-solid fa-skull-crossbones"></i></span>
+        <div class="event-card-name">Battle Royale</div>
+        <div class="event-card-desc">Último jugador en pie con múltiples participantes.</div>
+        <div class="event-card-mode">MODALIDAD: ELIMINACIÓN INDIVIDUAL/EQUIPOS</div>
+      </div>
+      <div class="event-card">
+        <span class="event-card-icon"><i class="fa-solid fa-crown"></i></span>
+        <div class="event-card-name">Rey del Crimen</div>
+        <div class="event-card-desc">Competencia individual por el título supremo.</div>
+        <div class="event-card-mode">MODALIDAD: TORNEO POR RONDAS</div>
+      </div>
+      <div class="event-card">
+        <span class="event-card-icon"><i class="fa-solid fa-gear"></i></span>
+        <div class="event-card-name">Eventos Customs</div>
+        <div class="event-card-desc">Eventos especiales con reglas personalizadas.</div>
+        <div class="event-card-mode">MODALIDAD: VARIABLE</div>
+      </div>
+    </div>
+    <div class="alert reveal" style="transition-delay:.3s;margin-top:2rem">
+      <span class="alert-icon"><i class="fa-solid fa-shield-halved"></i></span>
+      <p class="alert-text"><strong>Filosofía del departamento:</strong> Enseñar · Acompañar · Supervisar · Delegar. Cada miembro con rango superior es responsable de capacitar a los de rango inferior mostrando el procedimiento paso a paso.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · ROLES -->
+<section id="roles">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">02</div>
+      <div class="section-info">
+        <div class="section-label">Organigrama</div>
+        <h2 class="section-title">Estructura de Roles ENT</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <p style="font-size:.9rem;color:var(--text-dim);margin-bottom:1.5rem;" class="reveal">Orden de autoridad, de mayor a menor:</p>
+    <div class="roles-grid reveal" style="transition-delay:.1s">
+      <div class="role-card">
+        <div class="role-abbr">ADM</div>
+        <div class="role-name">Administrador</div>
+        <div class="role-desc">Máximo rango. Permisos especiales de servidor. Supervisión general del departamento.</div>
+        <div class="role-hierarchy">AUTORIDAD MÁXIMA</div>
+      </div>
+      <div class="role-card">
+        <div class="role-abbr">Aux.ENT</div>
+        <div class="role-name">Auxiliar</div>
+        <div class="role-desc">Por encima del Líder. Apoyo estratégico y de coordinación entre eventos. Resolución de conflictos de alto nivel.</div>
+        <div class="role-hierarchy">POR ENCIMA DE LID.ENT</div>
+      </div>
+      <div class="role-card">
+        <div class="role-abbr">Lid.ENT</div>
+        <div class="role-name">Líder</div>
+        <div class="role-desc">Máxima autoridad operativa en eventos. Responsable final de la calidad de cada evento.</div>
+        <div class="role-hierarchy">DEBAJO DE AUX.ENT</div>
+      </div>
+      <div class="role-card">
+        <div class="role-abbr">Sub.ENT</div>
+        <div class="role-name">Sublíder</div>
+        <div class="role-desc">Apoya al Líder en la coordinación general. Toma decisiones secundarias durante los eventos.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-abbr">ENT</div>
+        <div class="role-name">Miembro Verificado</div>
+        <div class="role-desc">Miembro activo con acceso completo para organizar y gestionar eventos de forma autónoma.</div>
+      </div>
+      <div class="role-card">
+        <div class="role-abbr">ENT-T</div>
+        <div class="role-name">Tester</div>
+        <div class="role-desc">Miembro en período de prueba. Aprende observando y asistiendo bajo supervisión.</div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:3rem;transition-delay:.2s">
+      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-shirt"></i></span> Uniforme Oficial ENT</h3>
+      <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:1rem;">Debes tener el uniforme puesto antes de iniciar cualquier evento.</p>
+    </div>
+    <div class="uniform-row reveal" style="transition-delay:.3s">
+      <div class="uniform-card">
+        <span class="uniform-icon"><i class="fa-solid fa-user-tie"></i></span>
+        <div class="uniform-label">Camiseta · Hombre</div>
+        <div class="uniform-type">Uniforme Masculino</div>
+        <div class="uniform-id">502</div>
+        <div class="uniform-note">ID de ropa del uniforme oficial para miembros masculinos.</div>
+      </div>
+      <div class="uniform-card">
+        <span class="uniform-icon"><i class="fa-solid fa-user"></i></span>
+        <div class="uniform-label">Camiseta · Mujer</div>
+        <div class="uniform-type">Uniforme Femenino</div>
+        <div class="uniform-id">693</div>
+        <div class="uniform-note">ID de ropa del uniforme oficial para miembros femeninas.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 · CANALES -->
+<section id="canales">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">03</div>
+      <div class="section-info">
+        <div class="section-label">Discord</div>
+        <h2 class="section-title">Canales de Voz</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="channel-list reveal" style="transition-delay:.1s">
+      <div class="channel-item priority-high">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Soporte Entretenimiento</div><div class="channel-desc">Canal principal donde llegan los L00 y rangos altos a solicitar asaltos. <strong>Monitorear constantemente</strong> cuando no estés en un evento activo.</div></div>
+        <span class="channel-badge badge-high"><i class="fa-solid fa-circle" style="font-size:.4rem;margin-right:.3rem"></i>ALTA</span>
+      </div>
+      <div class="channel-item priority-med">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Entretenimiento 1</div><div class="channel-desc">Sala operativa principal para la gestión activa de un evento en curso.</div></div>
+        <span class="channel-badge badge-med"><i class="fa-solid fa-circle" style="font-size:.4rem;margin-right:.3rem"></i>MEDIA</span>
+      </div>
+      <div class="channel-item priority-med">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Entretenimiento 2</div><div class="channel-desc">Sala secundaria. Aquí se reúnen los L00 de ambas sedes durante la coordinación del asalto.</div></div>
+        <span class="channel-badge badge-med"><i class="fa-solid fa-circle" style="font-size:.4rem;margin-right:.3rem"></i>MEDIA</span>
+      </div>
+      <div class="channel-item priority-low">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Entretenimiento 3</div><div class="channel-desc">Canal de apoyo o desbordamiento para múltiples eventos simultáneos.</div></div>
+        <span class="channel-badge badge-low"><i class="fa-solid fa-circle" style="font-size:.4rem;margin-right:.3rem"></i>BAJA</span>
+      </div>
+      <div class="channel-item priority-low">
+        <div class="channel-hash">#</div>
+        <div><div class="channel-name">Alineamiento ENT</div><div class="channel-desc">Canal interno exclusivo para briefing del equipo ENT antes de los eventos.</div></div>
+        <span class="channel-badge badge-low"><i class="fa-solid fa-lock" style="font-size:.4rem;margin-right:.3rem"></i>INTERNA</span>
+      </div>
+    </div>
+    <div class="alert reveal" style="transition-delay:.3s">
+      <span class="alert-icon"><i class="fa-solid fa-bullhorn"></i></span>
+      <p class="alert-text"><strong>Regla de oro:</strong> Permanece siempre en <strong>Soporte Entretenimiento</strong> cuando no estés en un evento activo. Los L00 llegan sin aviso previo a solicitar el servicio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 · ASALTO A SEDE -->
+<section id="asalto">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">04</div>
+      <div class="section-info">
+        <div class="section-label">Procedimiento</div>
+        <h2 class="section-title">Asalto a Sede — Paso a Paso</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal" style="margin-bottom:2.5rem;transition-delay:.1s">
+      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-list-check"></i></span> Requisitos previos</h3>
+      <table class="data-table">
+        <thead><tr><th>Requisito</th><th>Descripción</th><th>Cómo activarlo</th></tr></thead>
+        <tbody>
+          <tr><td><span class="inline-code">Uniforme ENT</span></td><td>Uniforme oficial puesto.</td><td>Hombre: ID <strong>502</strong> · Mujer: ID <strong>693</strong></td></tr>
+          <tr><td><span class="inline-code">WALL</span></td><td>Ver jugadores a través de paredes.</td><td>Comando <span class="inline-code">WALL</span> en consola.</td></tr>
+          <tr><td><span class="inline-code">NC</span></td><td>Modo Noclip para volar por la ciudad.</td><td>Comando <span class="inline-code">NC</span> en consola.</td></tr>
+          <tr><td><span class="inline-code">Set aprobado</span></td><td>Set de rango activo en Staff Real.</td><td>Canal <strong>#pedir-set</strong> en Staff Real.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="steps reveal" style="transition-delay:.2s">
+      <div class="step"><div class="step-num-wrap"><div class="step-num">01</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-phone"></i></span> Recibir la solicitud</div><p class="step-text">Cuando un <strong>L00</strong> llega a <strong>Soporte Entretenimiento</strong>, salúdalo con amabilidad. Pregunta de qué sede son y cuántos jugadores participarán. Anota: <strong>sede solicitante</strong> y <strong>número de jugadores</strong>.</p></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">02</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-plane"></i></span> Buscar sede contrincante</div><p class="step-text">Con <strong>NC y WALL</strong> activos, vuela por la ciudad visitando sedes y preguntando si alguna quiere enfrentarse. Indica que ya tienes una sede solicitante con X personas. Una vez que acepten, confirma que tienen jugadores suficientes.</p></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">03</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-microphone"></i></span> Reunir a los L00 en canal</div><p class="step-text">Notifica a la sede solicitante que conseguiste contrincante. Lleva a los L00 de ambas sedes a <strong>Entretenimiento 2</strong>. Puedes invitar a un ENT-T para que aprenda o a otros miembros de apoyo.</p></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">04</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-thumbtack"></i></span> Establecer estado del canal</div><p class="step-text">Configura el estado del canal indicando el enfrentamiento. Formato: <span class="inline-code">Atacantes vs Defensores + Mundo</span>. Ejemplo: <span class="inline-code">A.S vs Kaoz 69</span></p><span class="step-tag">Estado del canal</span><span class="step-tag">Mundo designado</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">05</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-robot"></i></span> Registrar en el Bot</div><p class="step-text">Ve al Discord de Entretenimiento: <strong>discord.gg/FthfyaFFcU</strong> → canal <strong>#bot-entretenimiento</strong> → botón <strong>Registrar Asalto</strong>. Completa los 3 pasos. Ver Sección 05.</p><span class="step-tag">discord.gg/FthfyaFFcU</span><span class="step-tag">#bot-entretenimiento</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">06</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-globe"></i></span> Enviar al mundo del evento</div><p class="step-text">Usa <span class="inline-code">areamundo [mundo] [radio]</span> (ej: <span class="inline-code">areamundo 69 10</span>) para enviar a ambas facciones al mundo designado. Luego usa <span class="inline-code">TPAREA</span> para teletransportarlos a las coordenadas de defensa y ataque del panel.</p><span class="step-tag">TPAREA</span><span class="step-tag">Coordenadas del panel</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">07</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-hourglass-half"></i></span> Anunciar con /adm (5 minutos)</div><p class="step-text">Usa <span class="inline-code">/adm</span> → escribes el mensaje de aviso → seleccionas el mundo del evento. Ver <strong>Sección 06</strong> para la explicación completa del comando.</p><span class="step-tag">/adm → mensaje → mundo</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">08</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-fire"></i></span> Iniciar la ronda</div><p class="step-text">Pulsa <strong>Iniciar Ronda</strong> en el panel. Envía el <span class="inline-code">/adm</span> de inicio con los datos del enfrentamiento al mundo del evento. Recuerda: <strong>PROHIBIDO REANIMAR</strong>.</p></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">09</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-trophy"></i></span> Gestionar resultado de rondas</div><p class="step-text">Al terminar cada ronda, pulsa <strong>Gana X</strong> o <strong>Gana Y</strong> en el panel. Envía el <span class="inline-code">/adm</span> con el marcador actualizado. <strong>Mejor de 3 rondas</strong> (2 victorias para ganar; si quedan 1-1 se juega tercera).</p><span class="step-tag">2-3 rondas</span><span class="step-tag">Mejor de 3</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">10</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-camera"></i></span> Foto de ganadores y regreso</div><p class="step-text"><strong>Primero toma la foto del equipo ganador</strong> antes de moverlos. Luego usa <span class="inline-code">TPAREA</span> para regresar cada sede a sus coordenadas originales (del panel: "Coordenadas de [Sede]"). Finalmente <span class="inline-code">/areamundo 1 100</span> para retornar todos al mundo predeterminado.</p><span class="step-tag">Foto ANTES de mover</span><span class="step-tag">/areamundo 1 100</span></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">11</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-clipboard-check"></i></span> Finalizar y registrar</div><p class="step-text">Pulsa <strong>"Click para finalizar el asalto"</strong> en el panel. El bot generará los textos para <strong>Hall de la Fama</strong> y <strong>Registro oficial</strong>. Ver Sección 09.</p><span class="step-tag">Hall de la Fama</span><span class="step-tag">Registro Staff Real</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 · BOT -->
+<section id="bot">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">05</div>
+      <div class="section-info">
+        <div class="section-label">Discord Bot</div>
+        <h2 class="section-title">Bot de Entretenimiento</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="bot-timeline reveal" style="transition-delay:.1s">
+      <div class="bot-step"><div class="bot-step-num">1</div><div class="bot-step-title">Tipo de Asalto</div><div class="bot-step-desc">Elige entre Normal, VIP o Custom (Manual).</div></div>
+      <div class="bot-step"><div class="bot-step-num">2</div><div class="bot-step-title">Sede + Facciones</div><div class="bot-step-desc">Selecciona sede, defensores y atacantes con capacidad.</div></div>
+      <div class="bot-step"><div class="bot-step-num">3</div><div class="bot-step-title">Organizadores</div><div class="bot-step-desc">Agrega los admins/miembros ENT a cargo del evento.</div></div>
+    </div>
+    <div class="reveal" style="transition-delay:.2s">
+      <table class="data-table">
+        <thead><tr><th>Paso</th><th>Acción</th><th>Opciones / Notas</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Paso 1</strong></td><td>Pulsa <span class="inline-code">Registrar Asalto</span></td><td>Asalto de Sede (Normal) · VIP · CUSTOM (Manual)</td></tr>
+          <tr><td><strong>Paso 2</strong></td><td>Selecciona la sede del enfrentamiento</td><td>Ver tabla de sedes en Sección 08</td></tr>
+          <tr><td><strong>Paso 2.1</strong></td><td>Facción <strong>DEFENSORA</strong></td><td>Menú de sedes o "Nombre personalizado"</td></tr>
+          <tr><td><strong>Paso 2.2</strong></td><td>Facción <strong>ATACANTE</strong></td><td>Mismo proceso que defensores</td></tr>
+          <tr><td><strong>Capacidad</strong></td><td>Configuración de cantidad por equipo</td><td>Ej: 15 vs 15 · Confirmar con <span class="inline-code">Enviar</span></td></tr>
+          <tr><td><strong>Paso 3</strong></td><td>Agrega organizadores ENT</td><td>Confirma con <span class="inline-code">Confirmar Organizadores</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="reveal" style="margin-top:2.5rem;transition-delay:.3s">
+      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-display"></i></span> Panel del Gestor de Asaltos</h3>
+      <div class="panel-preview">
+<span class="py">⚡ GESTOR DE ASALTOS</span><br>
+<span class="ph">📊 ESTADO ACTUAL</span><br>
+<span class="ph">🏰 Sede: </span><span class="pw">KAOS</span>
+<span class="ph">  🛡 Def: </span><span class="pr">ANONIMATO</span>
+<span class="ph">  ⚔ Atk: </span><span class="pr">BLOODSDIAMONDS</span><br>
+<span class="ph">👥 Total: 30  |  👥 Capacidad: </span><span class="pw">15 vs 15</span><br>
+<span class="ph">🦁 Leones: </span><span class="py">@Angelo | 1839</span><br><br>
+<span class="ph">🌍 UBICACIONES Y COORDENADAS</span><br>
+<span class="ph">🛡 Defensa (TP): </span><span class="pg">-126.33, 992.88, 235.76, 184.67</span><br>
+<span class="ph">⚔ Ataque  (TP): </span><span class="pg"> 209.86, 1225.26, 225.46, 57.17</span><br>
+<span class="ph">⚔ Coordenadas de BLOODSDIAMONDS: </span><span class="pg">-1254.35, 841.71, 193.38, 2.27</span><br>
+<span class="ph">🛡 Coordenadas de ANONIMATO: </span><span class="pg">999.34, -2506.11, 28.30, 177.96</span><br><br>
+<span class="ph">🎯 Ronda: </span><span class="pw">1</span>
+<span class="ph">  📈 Marcador: </span><span class="pr">ANONIMATO 0 - 0 BLOODSDIAMONDS</span><br>
+<span class="ph">🎯 Mejor de 3  |  🏆 Para ganar: </span><span class="py">2</span>
+      </div>
+    </div>
+    <div class="alert alert-gold reveal" style="transition-delay:.35s">
+      <span class="alert-icon"><i class="fa-solid fa-info-circle"></i></span>
+      <p class="alert-text">Las <strong>Coordenadas de [Sede]</strong> al final son las posiciones ORIGINALES de cada facción. Se usan al final del asalto para regresarlas con TPAREA.</p>
+    </div>
+    <div class="reveal" style="margin-top:1.5rem;transition-delay:.4s">
+      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-hand-pointer"></i></span> Botones del Panel</h3>
+      <div class="buttons-grid">
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-trophy" style="color:var(--gold);margin-right:.3rem;font-size:.8rem"></i>Gana X / Gana Y</div><div class="btn-item-desc">Registra qué equipo ganó la ronda y actualiza el marcador.</div></div>
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-rotate-left" style="color:var(--text-dim);margin-right:.3rem;font-size:.8rem"></i>Deshacer Ronda</div><div class="btn-item-desc">Revierte el último resultado si hubo error.</div></div>
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-arrows-rotate" style="color:var(--cyan);margin-right:.3rem;font-size:.8rem"></i>Refrescar</div><div class="btn-item-desc">Actualiza el panel con el estado más reciente.</div></div>
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-fire" style="color:var(--red);margin-right:.3rem;font-size:.8rem"></i>Iniciar Ronda</div><div class="btn-item-desc">Lanza la ronda. Usar junto con /adm de inicio.</div></div>
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-clock" style="color:var(--gold);margin-right:.3rem;font-size:.8rem"></i>5 Minutos</div><div class="btn-item-desc">Alerta de preparación de 5 minutos.</div></div>
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-scroll" style="color:var(--text-dim);margin-right:.3rem;font-size:.8rem"></i>Reglas</div><div class="btn-item-desc">Envía las reglas al mundo del evento.</div></div>
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red);margin-right:.3rem;font-size:.8rem"></i>Alerta León</div><div class="btn-item-desc">Pausa el evento. Líderes a Soporte por voz.</div></div>
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-user-plus" style="color:var(--gold);margin-right:.3rem;font-size:.8rem"></i>Invitar León</div><div class="btn-item-desc">Agrega un organizador adicional.</div></div>
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-xmark" style="color:var(--red);margin-right:.3rem;font-size:.8rem"></i>Cancelar Evento</div><div class="btn-item-desc">Cancela y cierra sin generar registro.</div></div>
+        <div class="btn-item"><div class="btn-item-name"><i class="fa-solid fa-circle-check" style="color:var(--green);margin-right:.3rem;font-size:.8rem"></i>Click Finalizar</div><div class="btn-item-desc">Cierra oficialmente y genera textos de registro.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 · /ADM -->
+<section id="comando-adm">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">06</div>
+      <div class="section-info">
+        <div class="section-label">Comando esencial</div>
+        <h2 class="section-title">Cómo funciona /adm</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <p style="font-size:1rem;color:var(--text-dim);line-height:1.75;max-width:780px;margin-bottom:1.5rem;">
+        El comando <span class="inline-code">/adm</span> es la herramienta principal para comunicarte con los jugadores dentro del juego. Permite enviar <strong style="color:var(--white)">mensajes oficiales de administrador</strong> que aparecen en pantalla para todos los jugadores en un mundo específico. Funciona en <strong style="color:var(--red-glow)">dos pasos secuenciales</strong>.
+      </p>
+    </div>
+    <div class="adm-flow reveal" style="transition-delay:.2s">
+      <div class="adm-flow-header"><i class="fa-solid fa-route"></i><span>Flujo completo del comando /adm</span></div>
+      <div class="adm-flow-steps">
+        <div class="adm-flow-step">
+          <div class="adm-flow-step-icon"><div class="circle circle-red">1</div></div>
+          <div class="adm-flow-step-body">
+            <div class="adm-flow-step-label label-red">Paso obligatorio</div>
+            <div class="adm-flow-step-title">Escribir el mensaje</div>
+            <div class="adm-flow-step-desc">Al escribir <span class="inline-code">/adm</span> se abre una ventana con el título <strong style="color:var(--white)">"Mensaje del admin"</strong>. Aquí escribes lo que quieres que vean los jugadores.</div>
+            <div class="adm-sim">
+              <div class="adm-sim-titlebar"><span class="adm-sim-dot r"></span><span class="adm-sim-dot y"></span><span class="adm-sim-dot g"></span><span>Mensaje del admin</span></div>
+              <div class="adm-sim-body">
+                <div class="adm-sim-input">Escribe aqui el anuncio:<br><span class="cmd-text">⏳ [AVISO]</span><br><span class="cmd-text">5 MINUTOS PARA PREPARARSE</span><br><span class="cmd-text">⚔️ ENFRENTAMIENTO: ANONIMATO vs BLOODSDIAMONDS</span><br><span class="cmd-text">🛡️ PREPAREN ARMAMENTO Y POSICIONES</span></div>
+                <div class="adm-sim-result"><span class="ar">⏳ [AVISO]</span><br><span class="ar">5 MINUTOS PARA PREPARARSE</span><br><span class="ar">⚔️ ENFRENTAMIENTO: ANONIMATO vs BLOODSDIAMONDS</span><br><span class="ar">🛡️ PREPAREN ARMAMENTO Y POSICIONES</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="adm-flow-step">
+          <div class="adm-flow-step-icon"><div class="circle circle-gold">2</div></div>
+          <div class="adm-flow-step-body">
+            <div class="adm-flow-step-label label-gold">Paso obligatorio</div>
+            <div class="adm-flow-step-title">Seleccionar el mundo</div>
+            <div class="adm-flow-step-desc">Después de confirmar el mensaje, aparece <strong style="color:var(--white)">"Seleccione el mundo"</strong>. Eliges a qué mundo se envía. Es el número de mundo donde están los jugadores del evento.</div>
+            <div class="adm-sim">
+              <div class="adm-sim-titlebar"><span class="adm-sim-dot r"></span><span class="adm-sim-dot y"></span><span class="adm-sim-dot g"></span><span>Seleccione el mundo</span></div>
+              <div class="adm-sim-body">
+                <div class="adm-world-selector"><span class="ay">🌍 Selecciona el mundo destino:</span><br><br><span class="ad">Mundo 1</span>  —  <span class="ad">Mundo 47</span>  —  <span class="ad">Mundo Guerra</span><br><span class="ad">Mundo 68</span>  —  <span class="aw" style="text-decoration:underline;text-underline-offset:3px">▶ Mundo 69</span>  —  <span class="ad">Mundo Royale</span><br><span class="ad">Mundo PREDETERMINADO</span></div>
+                <div style="margin-top:.8rem;font-size:.75rem;color:var(--text-muted)"><i class="fa-solid fa-info-circle" style="margin-right:.3rem"></i>Seleccionas el mundo <span style="color:var(--gold)">69</span> porque ahí están los jugadores (los enviaste con <span class="inline-code">areamundo 69 10</span>)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box reveal" style="transition-delay:.35s"><strong><i class="fa-solid fa-bolt" style="color:var(--gold);margin-right:.3rem"></i> Resumen:</strong> Escribes <span class="inline-code">/adm</span> → aparece "Mensaje del admin" → escribes el texto → confirmas → aparece "Seleccione el mundo" → eliges el mundo donde están los jugadores → el mensaje se envía.</div>
+    <div class="alert alert-cyan reveal" style="transition-delay:.4s"><span class="alert-icon"><i class="fa-solid fa-circle-info" style="color:var(--cyan)"></i></span><p class="alert-text"><strong>¿Por qué seleccionar el mundo?</strong> El servidor tiene múltiples mundos. El mundo 1 es donde está el RP normal. Tu evento está en otro mundo (ej: 69). Si envías el /adm al mundo 1, los del evento NO lo verían y los del mundo normal SÍ. <strong>Siempre elige el mundo correcto.</strong></p></div>
+    <div class="alert reveal" style="transition-delay:.45s"><span class="alert-icon"><i class="fa-solid fa-star"></i></span><p class="alert-text"><strong>El mundo es el MISMO durante todo el evento.</strong> Si el asalto se hizo en el mundo 69, TODOS los /adm (5 minutos, reglas, inicio, rondas, victoria) van al mundo 69. No cambia entre ronda y ronda.</p></div>
+    <div class="reveal" style="margin-top:2.5rem;transition-delay:.5s">
+      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-messages-square"></i></span> Ejemplos prácticos</h3>
+      <div class="adm-examples">
+        <div class="adm-example"><div class="adm-example-header"><div class="ae-icon" style="color:var(--gold)"><i class="fa-solid fa-hourglass-half"></i></div><span>Aviso de 5 minutos</span><span class="ae-when">DESPUÉS DE ENVIAR AL MUNDO</span></div><div class="adm-example-body"><span style="color:var(--text-muted)">Mensaje del admin →</span>
+⏳ [AVISO]
+5 MINUTOS PARA PREPARARSE
+⚔️ ENFRENTAMIENTO: ANONIMATO vs BLOODSDIAMONDS
+🛡️ PREPAREN ARMAMENTO Y POSICIONES
+
+<span style="color:var(--text-muted)">Seleccione el mundo →</span> <span style="color:var(--gold)">Mundo 69</span></div></div>
+        <div class="adm-example"><div class="adm-example-header"><div class="ae-icon" style="color:var(--text-dim)"><i class="fa-solid fa-scroll"></i></div><span>Reglas</span><span class="ae-when">ANTES DE INICIAR RONDA</span></div><div class="adm-example-body"><span style="color:var(--text-muted)">Mensaje del admin →</span>
+📜 [REGLAS DE ASALTO]
+🚫 NO reanimar | 🔇 0 Toxicidad | 🧍 Sin animaciones
+📍 Respetar límites | 🚗 VEHÍCULOS: SOLO ATACANTES
+
+<span style="color:var(--text-muted)">Seleccione el mundo →</span> <span style="color:var(--gold)">Mundo 69</span></div></div>
+        <div class="adm-example"><div class="adm-example-header"><div class="ae-icon" style="color:var(--red)"><i class="fa-solid fa-fire"></i></div><span>Inicio de ronda</span><span class="ae-when">AL PULSAR "INICIAR RONDA"</span></div><div class="adm-example-body"><span style="color:var(--text-muted)">Mensaje del admin →</span>
+🔥 [INICIO DE RONDA 1]
+📍 SEDE: KAOS | 🛡 DEF: ANONIMATO | ⚔️ ATK: BLOODSDIAMONDS
+⚠️ ATENCIÓN: PROHIBIDO REANIMAR
+
+<span style="color:var(--text-muted)">Seleccione el mundo →</span> <span style="color:var(--gold)">Mundo 69</span></div></div>
+        <div class="adm-example"><div class="adm-example-header"><div class="ae-icon" style="color:var(--green)"><i class="fa-solid fa-flag-checkered"></i></div><span>Fin de ronda</span><span class="ae-when">AL PULSAR "GANA X/Y"</span></div><div class="adm-example-body"><span style="color:var(--text-muted)">Mensaje del admin →</span>
+🔥 ¡RONDA 1 FINALIZADA!
+
+🏆 Ganador de la Ronda: ANONIMATO
+📈 Marcador Global: ANONIMATO 1 - 0 BLOODSDIAMONDS
+
+<span style="color:var(--text-muted)">Seleccione el mundo →</span> <span style="color:var(--gold)">Mundo 69</span></div></div>
+        <div class="adm-example"><div class="adm-example-header"><div class="ae-icon" style="color:var(--gold)"><i class="fa-solid fa-crown"></i></div><span>Victoria final</span><span class="ae-when">AL GANAR 2 RONDAS</span></div><div class="adm-example-body"><span style="color:var(--text-muted)">Mensaje del admin →</span>
+👑 ASALTO FINALIZADO - VICTORIA
+
+🏆 GANADOR DEL EVENTO: ANONIMATO
+🏰 SEDE: KAOS
+📈 MARCADOR FINAL: 2 - 0
+
+<span style="color:var(--text-muted)">Seleccione el mundo →</span> <span style="color:var(--gold)">Mundo 69</span></div></div>
+        <div class="adm-example"><div class="adm-example-header"><div class="ae-icon" style="color:var(--red)"><i class="fa-solid fa-triangle-exclamation"></i></div><span>Alerta León</span><span class="ae-when">HAY PROBLEMA A REVISAR</span></div><div class="adm-example-body"><span style="color:var(--text-muted)">Mensaje del admin →</span>
+🛑 [ALERTA LEON]
+ASALTO PAUSADO POR REVISIÓN
+🛑 MANTENGAN POSICIONES Y DETENGAN EL FUEGO
+🎤 LÍDERES A SOPORTE POR VOZ
+
+<span style="color:var(--text-muted)">Seleccione el mundo →</span> <span style="color:var(--gold)">Mundo 69</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 · COMANDOS -->
+<section id="comandos">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">07</div>
+      <div class="section-info">
+        <div class="section-label">Admin Tools</div>
+        <h2 class="section-title">Comandos de Administrador</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="cmd-grid reveal" style="transition-delay:.1s">
+      <div class="cmd-item"><div class="cmd-code">NC</div><div><div class="cmd-info-name">Noclip</div><div class="cmd-info-desc">Modo invisible + vuelo para desplazarte sin ser visto.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">WALL</div><div><div class="cmd-info-name">Ver a través de paredes</div><div class="cmd-info-desc">Muestra información de jugadores a través de superficies.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">GOD [ID] [LUGAR]</div><div><div class="cmd-info-name">Teletransporte rápido</div><div class="cmd-info-desc">Envía jugador a ubicación: P · DP · PN · HP · MEC · PLAZA</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">GOD</div><div><div class="cmd-info-name">Auto-reanimación</div><div class="cmd-info-desc">Te revive a ti mismo donde estás.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">GOD [ID]</div><div><div class="cmd-info-name">Reanimar jugador</div><div class="cmd-info-desc">Revive a un jugador por su ID.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">GODAREA [R]</div><div><div class="cmd-info-name">Reanimar área</div><div class="cmd-info-desc">Revive a todos en el radio indicado (metros).</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">AREAMUNDO [M] [R]</div><div><div class="cmd-info-name">Cambio de mundo masivo</div><div class="cmd-info-desc">Mundos: Guerra · 47 · Royale · PREDETERMINADO</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">TPTO [ID]</div><div><div class="cmd-info-name">TP hacia jugador</div><div class="cmd-info-desc">Te teletransporta a la posición de un jugador.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">TPTOME [ID]</div><div><div class="cmd-info-name">TP jugador hacia ti</div><div class="cmd-info-desc">Trae a un jugador a tu posición actual.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">TPWAY</div><div><div class="cmd-info-name">TP a waypoint</div><div class="cmd-info-desc">Te lleva al punto marcado en el mapa.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">TPAREA</div><div><div class="cmd-info-name">TP de área con coords</div><div class="cmd-info-desc">Interfaz: coordenadas (x,y,z) + distancia (10-50m).</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">CDS</div><div><div class="cmd-info-name">Copiar coordenadas</div><div class="cmd-info-desc">Copia tus coordenadas actuales al portapapeles.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">DV</div><div><div class="cmd-info-name">Eliminar vehículo</div><div class="cmd-info-desc">Elimina el vehículo en el que estás o el más cercano.</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">DVAREA [R]</div><div><div class="cmd-info-name">Limpiar vehículos</div><div class="cmd-info-desc">Elimina todos los vehículos en el radio (metros).</div></div></div>
+      <div class="cmd-item"><div class="cmd-code">/adm</div><div><div class="cmd-info-name">Mensaje de Admin IC</div><div class="cmd-info-desc">Anuncio al mundo seleccionado. Ver Sección 06.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 · SEDES -->
+<section id="sedes">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">08</div>
+      <div class="section-info">
+        <div class="section-label">Ubicaciones</div>
+        <h2 class="section-title">Sedes Disponibles</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="sedes-grid reveal" style="transition-delay:.1s">
+      <div class="sede-card"><div class="sede-name">BARRAGEM</div><div class="sede-cap">25 vs 25 o más</div><div class="sede-desc">La sede más grande. Ideal para enfrentamientos masivos.</div></div>
+      <div class="sede-card"><div class="sede-name">KAOS</div><div class="sede-cap">15 vs 15</div><div class="sede-desc">Tamaño mediano. Una de las más utilizadas.</div></div>
+      <div class="sede-card"><div class="sede-name">VERDES</div><div class="sede-cap">20 vs 20 / 22 vs 22</div><div class="sede-desc">Capacidad flexible. Confirmar número exacto.</div></div>
+      <div class="sede-card"><div class="sede-name">WARLOCKS</div><div class="sede-cap">15 vs 15 / 18 vs 18</div><div class="sede-desc">Capacidad flexible en rango bajo-medio.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · PLANTILLAS -->
+<section id="plantillas">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">09</div>
+      <div class="section-info">
+        <div class="section-label">Textos para /adm</div>
+        <h2 class="section-title">Plantillas de Anuncio</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:.1s">
+      <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:2rem;">Textos que pegas en <strong>"Mensaje del admin"</strong> al usar <span class="inline-code">/adm</span>. Reemplaza los corchetes con datos reales. Luego selecciona el mundo.</p>
+    </div>
+    <div class="templates-grid reveal" style="transition-delay:.2s">
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-triangle-exclamation" style="color:var(--red);margin-right:.4rem"></i>ALERTA LEÓN</span><span class="template-type">PAUSA DEL EVENTO</span></div><div class="template-body">🛑 [ALERTA LEON]
+ASALTO PAUSADO POR REVISIÓN
+🛑 MANTENGAN POSICIONES Y DETENGAN EL FUEGO
+🎤 LÍDERES A SOPORTE POR VOZ</div></div>
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-hourglass-half" style="color:var(--gold);margin-right:.4rem"></i>AVISO — 5 Minutos</span><span class="template-type">DESPUÉS DE ENVIAR AL MUNDO</span></div><div class="template-body">⏳ [AVISO]
+5 MINUTOS PARA PREPARARSE
+⚔️ ENFRENTAMIENTO: [Equipo 1] vs [Equipo 2]
+🛡️ PREPAREN ARMAMENTO Y POSICIONES</div></div>
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-scroll" style="color:var(--text-dim);margin-right:.4rem"></i>REGLAS</span><span class="template-type">ANTES DE INICIAR RONDA</span></div><div class="template-body">📜 [REGLAS DE ASALTO]
+🚫 NO reanimar | 🔇 0 Toxicidad | 🧍 Sin animaciones
+📍 Respetar límites | 🚗 VEHÍCULOS: SOLO ATACANTES</div></div>
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-fire" style="color:var(--red);margin-right:.4rem"></i>INICIO DE RONDA</span><span class="template-type">AL PULSAR "INICIAR RONDA"</span></div><div class="template-body">🔥 [INICIO DE RONDA X]
+📍 SEDE: [Nombre] | 🛡 DEF: [Equipo Defensor] | ⚔️ ATK: [Equipo Atacante]
+⚠️ ATENCIÓN: PROHIBIDO REANIMAR</div></div>
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-flag-checkered" style="color:var(--green);margin-right:.4rem"></i>FIN DE RONDA</span><span class="template-type">AL PULSAR "GANA X/Y"</span></div><div class="template-body">🔥 ¡RONDA X FINALIZADA!
+
+🏆 Ganador de la Ronda: [Equipo]
+📈 Marcador Global: [Equipo 1] X - X [Equipo 2]</div></div>
+      <div class="template-card"><div class="template-header"><span class="template-name"><i class="fa-solid fa-crown" style="color:var(--gold);margin-right:.4rem"></i>VICTORIA FINAL</span><span class="template-type">AL GANAR 2 RONDAS</span></div><div class="template-body">👑 ASALTO FINALIZADO - VICTORIA
+
+🏆 GANADOR DEL EVENTO: [Equipo]
+🏰 SEDE: [Nombre]
+📈 MARCADOR FINAL: X - X</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 · FOTOS -->
+<section id="fotos">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">10</div>
+      <div class="section-info">
+        <div class="section-label">Documentación visual</div>
+        <h2 class="section-title">Fotografías del Evento</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <p style="font-size:.9rem;color:var(--text-dim);margin-bottom:2rem;" class="reveal">Se deben tomar <strong style="color:var(--white)">3 fotografías oficiales</strong> durante cada asalto.</p>
+    <div class="reveal" style="transition-delay:.1s">
+      <table class="data-table">
+        <thead><tr><th>#</th><th>Foto</th><th>Descripción</th><th>Cuándo</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--red)">1</strong></td><td><i class="fa-solid fa-shield-halved" style="color:var(--cyan);margin-right:.4rem"></i>Defensores</td><td>Foto grupal del equipo defensor.</td><td>Antes de Ronda 1.</td></tr>
+          <tr><td><strong style="color:var(--red)">2</strong></td><td><i class="fa-solid fa-crosshairs" style="color:var(--red);margin-right:.4rem"></i>Atacantes</td><td>Foto grupal del equipo atacante.</td><td>Antes de Ronda 1.</td></tr>
+          <tr><td><strong style="color:var(--red)">3</strong></td><td><i class="fa-solid fa-fire" style="color:var(--gold);margin-right:.4rem"></i>En combate</td><td>Momento álgido del enfrentamiento.</td><td>Durante ronda activa.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-gold reveal" style="transition-delay:.2s;margin-top:1.5rem"><span class="alert-icon"><i class="fa-solid fa-camera"></i></span><p class="alert-text">Las 3 fotos se publican como imágenes con texto indicando los equipos participantes. Publicación <strong>antes o durante el evento</strong>, nunca después.</p></div>
+  </div>
+</section>
+
+<!-- 11 · REGISTRO -->
+<section id="registro">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">11</div>
+      <div class="section-info">
+        <div class="section-label">Cierre oficial</div>
+        <h2 class="section-title">Hall de la Fama y Registro Final</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="steps reveal" style="transition-delay:.1s">
+      <div class="step"><div class="step-num-wrap"><div class="step-num">A</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-trophy"></i></span> Hall de la Fama</div><p class="step-text">Ve al Discord de <strong>RealRP</strong> → canal <strong>Hall de la Fama</strong> (debe ser el de Entretenimiento). Pega la imagen del equipo ganador y el texto del bot. Publica.</p></div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">B</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-id-badge"></i></span> Solicitar Set en Staff Real</div><p class="step-text">Ve a <strong>Staff Real</strong> → <strong>#pedir-set</strong> → <strong>Verificarse</strong> → selecciona tu <strong>rango</strong> (ENT-T si comienzas) → equipo: <strong>ENT</strong> → escribe tu <strong>Nombre IC sin apellidos</strong> y tu <strong>ID</strong> → Enviar y esperar.</p>
+        <div class="alert" style="margin-top:.75rem;padding:.75rem 1rem"><span class="alert-icon" style="font-size:.85rem"><i class="fa-solid fa-triangle-exclamation"></i></span><p class="alert-text" style="font-size:.82rem">Si te suben o bajan de rango, debes solicitar el set <strong>nuevamente</strong>.</p></div>
+      </div></div>
+      <div class="step"><div class="step-num-wrap"><div class="step-num">C</div></div><div class="step-body"><div class="step-title"><span class="step-icon"><i class="fa-solid fa-clipboard-list"></i></span> Registro del evento</div><p class="step-text">Una vez aprobado el set, ve al canal de <strong>Registro</strong> en Staff Real. Pega el texto generado por el bot.</p></div></div>
+    </div>
+    <div class="reveal" style="margin-top:2.5rem;transition-delay:.3s">
+      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-code"></i></span> Ejemplo de texto de registro (generado por el bot)</h3>
+      <div class="registro-preview">
+<span class="lk">⚡ Evento:</span>          <span class="lv">Asalto a Sede</span>
+<span class="lk">🏰 Sede Defendida:</span>   <span class="lv">VERDES</span>
+<span class="lk">🛡 Defensores:</span>        <span class="lhigh">TROPADO7LC</span>
+<span class="lk">⚔ Atacantes:</span>          <span class="lv">SICILIA</span>
+<span class="lk">👥 Capacidad:</span>         <span class="lv">20 vs 20</span>
+<span class="lk">🎯 Total Rondas:</span>      <span class="lv">2</span>
+<span class="lk">📈 Marcador:</span>          <span class="lhigh">TROPADO7LC 2-0 SICILIA</span>
+<span class="lk">🏆 GANADOR:</span>           <span class="lhigh">TROPADO7LC</span>
+<span class="lk">📅 Fecha:</span>             <span class="lv">12/04 22:03 2026</span>
+<span class="lk">🦁 Leones:</span>            <span class="lv">[generado automáticamente por el bot]</span>
+<span class="lk">🎁 Premiación:</span>
+<span style="color:var(--cyan)">!additem [ID_GANADOR] dinheirosujo 7000000 asaltosede 22:03 12/04</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 · BUENAS PRÁCTICAS -->
+<section id="practicas">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">12</div>
+      <div class="section-info">
+        <div class="section-label">Tips & Guidelines</div>
+        <h2 class="section-title">Buenas Prácticas</h2>
+        <div class="section-line"></div>
+      </div>
+    </div>
+    <div class="practices-grid reveal" style="transition-delay:.1s">
+      <div class="practice-card"><span class="practice-icon"><i class="fa-solid fa-handshake" style="color:var(--gold)"></i></span><div class="practice-title">Trato con jugadores</div><ul class="practice-list"><li>Sé siempre amable y profesional con los L00.</li><li>Explica el proceso si es su primera vez.</li><li>Ante conflictos, mantén la calma y escala al Sub.ENT, Lid.ENT o Aux.ENT.</li><li>Evita favoritismos; el ENT es neutral.</li></ul></div>
+      <div class="practice-card"><span class="practice-icon"><i class="fa-solid fa-gears" style="color:var(--cyan)"></i></span><div class="practice-title">Gestión del evento</div><ul class="practice-list"><li>Confirma jugadores ANTES de registrar en el bot.</li><li>Verifica números antes de comenzar.</li><li>Ante problemas técnicos, usa "Alerta León".</li><li>Nunca inicies si no están todos listos.</li><li>Siempre anuncia "PROHIBIDO REANIMAR".</li></ul></div>
+      <div class="practice-card"><span class="practice-icon"><i class="fa-solid fa-people-group" style="color:var(--green)"></i></span><div class="practice-title">Formación</div><ul class="practice-list"><li>ENT-T: observa y aprende antes de tomar control.</li><li>ENT o superior: apoya a testers mostrando el proceso.</li><li>Usa Alineamiento ENT para briefings previos.</li><li>Cada senior es responsable de capacitar a los inferiores.</li></ul></div>
+      <div class="practice-card"><span class="practice-icon"><i class="fa-solid fa-flag-checkered" style="color:var(--red)"></i></span><div class="practice-title">Cierre del evento</div><ul class="practice-list"><li>NUNCA olvides regresar a los jugadores a sus mundos.</li><li>Foto de ganadores ANTES de moverlos.</li><li>Hall de la Fama y Registro el mismo día.</li><li>Revisa que el registro esté completo antes de cerrar.</li></ul></div>
+    </div>
+    <div class="reveal" style="margin-top:3rem;transition-delay:.2s">
+      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-users-gear"></i></span> Asignación de Roles durante Eventos</h3>
+      <p style="font-size:.9rem;color:var(--text-dim);margin-bottom:1rem;">Para que los eventos se desarrollen sin estrés, se recomienda asignar roles específicos. No es obligatorio cubrir todos en cada evento.</p>
+    </div>
+    <div class="role-assign-grid reveal" style="transition-delay:.3s">
+      <div class="role-assign-card"><div class="role-assign-name"><i class="fa-solid fa-star" style="color:var(--gold);margin-right:.4rem;font-size:.8rem"></i>Líder de Evento</div><div class="role-assign-who">LID.ENT · SUB.ENT · AUX.ENT · ADM</div><div class="role-assign-desc">Coordina todo, toma decisiones finales, da inicio a rondas.</div></div>
+      <div class="role-assign-card"><div class="role-assign-name"><i class="fa-solid fa-robot" style="color:var(--cyan);margin-right:.4rem;font-size:.8rem"></i>Operador del Bot</div><div class="role-assign-who">ENT · SUB.ENT+</div><div class="role-assign-desc">Gestiona el panel: registra, pulsa botones, finaliza.</div></div>
+      <div class="role-assign-card"><div class="role-assign-name"><i class="fa-solid fa-bullhorn" style="color:var(--red);margin-right:.4rem;font-size:.8rem"></i>Comunicador /adm</div><div class="role-assign-who">ENT-T (con supervisión) · ENT+</div><div class="role-assign-desc">Envía todos los anuncios /adm durante el evento.</div></div>
+      <div class="role-assign-card"><div class="role-assign-name"><i class="fa-solid fa-camera" style="color:var(--gold);margin-right:.4rem;font-size:.8rem"></i>Fotógrafo</div><div class="role-assign-who">CUALQUIER MIEMBRO</div><div class="role-assign-desc">Toma las 3 fotos oficiales del evento.</div></div>
+      <div class="role-assign-card"><div class="role-assign-name"><i class="fa-solid fa-arrows-to-dot" style="color:var(--green);margin-right:.4rem;font-size:.8rem"></i>Teletransporte</div><div class="role-assign-who">ENT+</div><div class="role-assign-desc">Maneja areamundo y TPAREA para mover jugadores.</div></div>
+      <div class="role-assign-card"><div class="role-assign-name"><i class="fa-solid fa-headset" style="color:var(--text-dim);margin-right:.4rem;font-size:.8rem"></i>Coordinador de Canal</div><div class="role-assign-who">ENT+</div><div class="role-assign-desc">Gestiona el estado del canal y comunicación con L00.</div></div>
+    </div>
+    <div class="alert alert-gold reveal" style="transition-delay:.4s;margin-top:1.5rem"><span class="alert-icon"><i class="fa-solid fa-lightbulb"></i></span><p class="alert-text">El objetivo de la asignación de roles es <strong>reducir el estrés</strong> y mejorar la eficiencia. Si un miembro se siente abrumado, el Líder de Evento debe redistribuir las tareas. Lo importante es que <strong>siempre haya alguien claramente designado como Líder de Evento</strong>.</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-symbol"><i class="fa-solid fa-shield-halved"></i></div>
+    <div class="footer-name">Departamento de Entretenimiento</div>
+    <div class="footer-motto">Enseñar · Acompañar · Supervisar · Delegar</div>
+    <div style="width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);margin:.75rem auto 1rem"></div>
+    <div class="footer-meta">Guía Oficial v1.0 · RealRP 2026 · Uso Exclusivo Interno del Departamento ENT</div>
+  </div>
+</footer>
+
+<script>
+const particlesEl=document.getElementById('particles');
+for(let i=0;i<25;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.bottom='-10px';p.style.animationDuration=(8+Math.random()*12)+'s';p.style.animationDelay=(Math.random()*10)+'s';p.style.width=p.style.height=(1+Math.random()*2)+'px';if(Math.random()>.7)p.style.background='var(--gold)';particlesEl.appendChild(p)}
+const bar=document.getElementById('progress');
+window.addEventListener('scroll',()=>{bar.style.width=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100)+'%'});
+const nav=document.getElementById('topnav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('visible',window.scrollY>window.innerHeight*.55)});
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
