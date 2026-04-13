@@ -276,12 +276,67 @@ footer{padding:4rem 0;text-align:center;position:relative;z-index:1}
   .cmd-grid{grid-template-columns:1fr}
   .section-num{font-size:3rem;min-width:50px}
   .event-summary{grid-template-columns:1fr}
+  .toc-float{display:none}
 }
+
+.toc-float{position:fixed;right:1rem;top:50%;transform:translateY(-50%);z-index:50;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.5rem;width:180px;display:block}
+.toc-title{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:var(--purple-glow);letter-spacing:.15em;margin-bottom:.5rem;text-transform:uppercase;border-bottom:1px solid var(--border);padding-bottom:.3rem}
+.toc-list{list-style:none;max-height:60vh;overflow-y:auto}
+.toc-list li{margin:.25rem 0}
+.toc-list a{font-size:.7rem;color:var(--text-dim);text-decoration:none;display:block;padding:.25rem .4rem;border-radius:3px;transition:all .2s}
+.toc-list a:hover,.toc-list a.active{color:var(--white);background:var(--purple-glow);color:var(--bg)}
+
+.accordion{margin:1rem 0}
+.accordion-item{background:var(--bg2);border:1px solid var(--border);margin:.5rem 0;border-radius:4px;overflow:hidden}
+.accordion-header{background:var(--bg3);padding:1rem 1.2rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+.accordion-header:hover{background:var(--bg4)}
+.accordion-header h4{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--white);margin:0}
+.accordion-icon{color:var(--purple-glow);transition:transform .3s}
+.accordion-item.open .accordion-icon{transform:rotate(180deg)}
+.accordion-body{background:var(--bg2);padding:0 1.2rem;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s}
+.accordion-item.open .accordion-body{padding:1rem 1.2rem;max-height:500px}
+
+.tooltip{position:relative;cursor:help}
+.tooltip::after{content:attr(data-tip);position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--purple-dark);color:var(--white);font-size:.7rem;padding:.4rem .8rem;border-radius:4px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,.2s;z-index:100}
+.tooltip:hover::after{opacity:1;bottom:calc(100%+8px)}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:1000;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.modal-overlay.open{display:flex;opacity:1}
+.modal{background:var(--bg2);border:1px solid var(--purple);border-radius:12px;max-width:500px;width:90%;padding:2rem;position:relative;transform:scale(.9);transition:transform .3s}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;color:var(--text-dim);font-size:1.5rem;cursor:pointer}
+.modal-close:hover{color:var(--white)}
+.modal h3{font-family:'Rajdhani',sans-serif;font-size:1.5rem;color:var(--white);margin-bottom:1rem}
+.modal p{color:var(--text-dim);line-height:1.7}
+
+.search-box{position:relative;margin-bottom:1rem}
+.search-box input{width:100%;background:var(--bg3);border:1px solid var(--border);padding:.8rem 1rem .8rem 2.5rem;border-radius:6px;color:var(--white);font-size:.9rem}
+.search-box input:focus{outline:none;border-color:var(--purple-glow)}
+.search-box i{position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--text-muted)}
+.search-results{position:absolute;top:100%;left:0;right:0;background:var(--bg2);border:1px solid var(--border);border-top:none;max-height:300px;overflow-y:auto;z-index:100;display:none}
+.search-results.active{display:block}
+.search-result{padding:.8rem 1rem;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s}
+.search-result:hover{background:var(--bg3)}
+.search-result-title{color:var(--white);font-size:.9rem}
+.search-result-section{color:var(--purple-glow);font-size:.7rem}
+
+.accordion-item{animation:fadeIn .3s ease}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
 </style>
 </head>
 <body>
 
 <div class="progress-bar" id="progress"></div>
+
+<!-- SEARCH BOX -->
+<div class="search-box">
+  <i class="fa-solid fa-search"></i>
+  <input type="text" id="searchInput" placeholder="Buscar en la guía...">
+  <div class="search-results" id="searchResults"></div>
+</div>
+
 <nav class="nav" id="topnav">
   <div class="nav-logo"><i class="fa-solid fa-shield-halved" style="margin-right:.4rem"></i>ENT</div>
   <ul class="nav-links">
@@ -983,16 +1038,99 @@ ASALTO PAUSADO POR REVISIÓN
   </div>
 </footer>
 
+<!-- TOC FLOTANTE -->
+<div class="toc-float">
+  <div class="toc-title">Contenido</div>
+  <ul class="toc-list" id="tocList"></ul>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <h3 id="modalTitle">Título</h3>
+    <div id="modalBody">Contenido</div>
+  </div>
+</div>
+
 <script>
+// PARTICLES
 const particlesEl=document.getElementById('particles');
 for(let i=0;i<25;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.bottom='-10px';p.style.animationDuration=(8+Math.random()*12)+'s';p.style.animationDelay=(Math.random()*10)+'s';p.style.width=p.style.height=(1+Math.random()*2)+'px';if(Math.random()>.7)p.style.background='var(--gold)';particlesEl.appendChild(p)}
+
+// PROGRESS BAR
 const bar=document.getElementById('progress');
 window.addEventListener('scroll',()=>{bar.style.width=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)*100)+'%'});
+
+// NAV
 const nav=document.getElementById('topnav');
 window.addEventListener('scroll',()=>{nav.classList.toggle('visible',window.scrollY>window.innerHeight*.55)});
+
+// REVEAL ON SCROLL
 const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting){el.target.classList.add('visible');obs.unobserve(el.target)}})},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// SCROLL ARROW CLICK
 document.querySelector('.scroll-arrow').addEventListener('click',()=>window.scrollTo({top:window.innerHeight,behavior:'smooth'}));
+
+// TOC FLOTANTE
+const tocList=document.getElementById('tocList');
+document.querySelectorAll('section').forEach(sec=>{
+  const id=sec.id;if(!id)return;
+  const title=sec.querySelector('.section-title')?.textContent||id;
+  const li=document.createElement('li');
+  li.innerHTML=`<a href="#${id}">${title}</a>`;
+  tocList.appendChild(li);
+});
+document.querySelectorAll('.toc-list a').forEach(link=>{
+  link.addEventListener('click',e=>{
+    document.querySelectorAll('.toc-list a').forEach(l=>l.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+
+// ACCORDION
+document.querySelectorAll('.accordion-header').forEach(header=>{
+  header.addEventListener('click',()=>{
+    const item=header.parentElement;
+    item.classList.toggle('open');
+  });
+});
+
+// SEARCH
+const searchInput=document.getElementById('searchInput');
+const searchResults=document.getElementById('searchResults');
+const sectionsData=[];
+document.querySelectorAll('section').forEach(sec=>{
+  const id=sec.id;if(!id)return;
+  const title=sec.querySelector('.section-title')?.textContent||id;
+  const text=sec.innerText||'';
+  sectionsData.push({id,title,text});
+});
+searchInput.addEventListener('input',e=>{
+  const q=e.target.value.toLowerCase();
+  if(q.length<2){searchResults.classList.remove('active');return;}
+  const results=sectionsData.filter(s=>s.title.toLowerCase().includes(q)||s.text.toLowerCase().includes(q)).slice(0,5);
+  if(results.length===0){searchResults.innerHTML='<div style="padding:1rem;color:var(--text-dim)">Sin resultados</div>';}
+  else{searchResults.innerHTML=results.map(r=>`<div class="search-result" onclick="scrollToSection('${r.id}')"><div class="search-result-title">${r.title}</div></div>`).join('');}
+  searchResults.classList.add('active');
+});
+function scrollToSection(id){searchResults.classList.remove('active');searchInput.value='';document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
+
+// MODAL
+function openModal(title,body){document.getElementById('modalTitle').innerHTML=title;document.getElementById('modalBody').innerHTML=body;document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+
+// KEYBOARD SHORTCUTS
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+  if(e.key==='/'&&!e.target.matches('input,textarea')){e.preventDefault();searchInput.focus();}
+  if(e.key==='ArrowDown'&&e.target===searchInput){e.preventDefault();const active=document.querySelector('.search-result.active');if(active)active.nextElementSibling?.classList.add('active');}
+});
+
+// DARK MODE TOGGLE (optional)
+let darkMode=true;
 </script>
 </body>
 </html>
