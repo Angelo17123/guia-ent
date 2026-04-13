@@ -340,7 +340,9 @@ footer{padding:4rem 0;text-align:center;position:relative;z-index:1}
 <nav class="nav" id="topnav">
   <div class="nav-logo"><i class="fa-solid fa-shield-halved" style="margin-right:.4rem"></i>ENT</div>
   <ul class="nav-links">
-    <li><a href="#roles">Roles</a></li>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#poderes">Poderes</a></li>
+    <li><a href="#rangos">Rangos</a></li>
     <li><a href="#canales">Canales</a></li>
     <li><a href="#asalto">Asalto</a></li>
     <li><a href="#bot">Bot</a></li>
@@ -378,129 +380,124 @@ footer{padding:4rem 0;text-align:center;position:relative;z-index:1}
   <div class="scroll-indicator"><span>DESPLAZAR</span><div class="scroll-arrow"></div></div>
 </div>
 
-<!-- 01 · INTRO -->
-<section id="intro">
+<!-- 01 · HOME -->
+<section id="home">
   <div class="container">
     <div class="section-header reveal">
       <div class="section-num">01</div>
       <div class="section-info">
-        <div class="section-label">Overview</div>
-        <h2 class="section-title">Departamento de Entretenimiento</h2>
+        <div class="section-label">Introducción</div>
+        <h2 class="section-title">¿Qué es ENT?</h2>
         <div class="section-line"></div>
       </div>
     </div>
     <div class="reveal" style="transition-delay:.1s">
-      <p style="font-size:1rem;color:var(--text-dim);line-height:1.75;max-width:780px;margin-bottom:1.5rem;">
-        El <strong style="color:var(--white)">Departamento de Entretenimiento (ENT)</strong> es la unidad operativa encargada de planificar, coordinar y ejecutar todos los eventos competitivos de gran escala dentro del servidor RealRP. Su función es proporcionar experiencias de enfrentamiento controlado entre facciones, garantizando fair play, orden y documentación oficial.
-      </p>
-      <p style="font-size:.9rem;color:var(--text-dim);line-height:1.75;max-width:780px;">
-        Todos los eventos se realizan en <strong style="color:var(--white)">mundos aislados</strong> del servidor, lo que significa que los participantes son trasladados a un espacio independiente que no interfere con la jugabilidad del resto de los usuarios.
-      </p>
-    </div>
-    <div class="event-summary reveal" style="transition-delay:.2s">
-      <div class="event-card">
-        <span class="event-card-icon"><i class="fa-solid fa-building-shield"></i></span>
-        <div class="event-card-name">Asalto a Sede</div>
-        <div class="event-card-desc">Enfrentamiento entre 2 mafias en una sede controlada.</div>
-        <div class="event-card-mode">MODALIDAD: MEJOR DE 3 RONDAS</div>
-      </div>
-      <div class="event-card">
-        <span class="event-card-icon"><i class="fa-solid fa-skull-crossbones"></i></span>
-        <div class="event-card-name">Battle Royale</div>
-        <div class="event-card-desc">Último jugador en pie con múltiples participantes.</div>
-        <div class="event-card-mode">MODALIDAD: ELIMINACIÓN INDIVIDUAL/EQUIPOS</div>
-      </div>
-      <div class="event-card">
-        <span class="event-card-icon"><i class="fa-solid fa-crown"></i></span>
-        <div class="event-card-name">Rey del Crimen</div>
-        <div class="event-card-desc">Competencia individual por el título supremo.</div>
-        <div class="event-card-mode">MODALIDAD: TORNEO POR RONDAS</div>
-      </div>
-      <div class="event-card">
-        <span class="event-card-icon"><i class="fa-solid fa-gear"></i></span>
-        <div class="event-card-name">Eventos Customs</div>
-        <div class="event-card-desc">Eventos especiales con reglas personalizadas.</div>
-        <div class="event-card-mode">MODALIDAD: VARIABLE</div>
+      <div class="highlight-box">
+        <p><strong style="color:var(--purple-glow)">Departamento de Entretenimiento (ENT)</strong> es el equipo encargado de organizar eventos competitivos entre mafias dentro de RealRP. Organizamos:<br><br>
+        <strong style="color:var(--white)">• Asaltos a Sede</strong> — Combates 15vs15 con mejor de 3 rondas<br>
+        <strong style="color:var(--white)">• Battle Royale</strong> — Último jugador en pie<br>
+        <strong style="color:var(--white)">• Rey del Crimen</strong> — Torneos individuales<br>
+        <strong style="color:var(--white)">• Eventos Customs</strong> — Eventos con reglas especiales</p>
       </div>
     </div>
-    <div class="alert reveal" style="transition-delay:.3s;margin-top:2rem">
-      <span class="alert-icon"><i class="fa-solid fa-shield-halved"></i></span>
-      <p class="alert-text"><strong>Filosofía del departamento:</strong> Enseñar · Acompañar · Supervisar · Delegar. Cada miembro con rango superior es responsable de capacitar a los de rango inferior mostrando el procedimiento paso a paso.</p>
+    <div class="roles-grid reveal" style="transition-delay:.2s;margin-top:1.5rem">
+      <div class="role-card" style="text-align:center">
+        <span style="font-size:2.5rem;color:var(--purple-glow);display:block;margin-bottom:.5rem"><i class="fa-solid fa-school"></i></span>
+        <div class="role-name">Enseñar</div>
+        <div class="role-desc">Capacitamos a nuevos miembros en los procedimientos</div>
+      </div>
+      <div class="role-card" style="text-align:center">
+        <span style="font-size:2.5rem;color:var(--purple-glow);display:block;margin-bottom:.5rem"><i class="fa-solid fa-handshake"></i></span>
+        <div class="role-name">Acompañar</div>
+        <div class="role-desc">Asistimos durante los eventos activamente</div>
+      </div>
+      <div class="role-card" style="text-align:center">
+        <span style="font-size:2.5rem;color:var(--purple-glow);display:block;margin-bottom:.5rem"><i class="fa-solid fa-eye"></i></span>
+        <div class="role-name">Supervisar</div>
+        <div class="role-desc">Controlamos que todo sea justo y ordenado</div>
+      </div>
+      <div class="role-card" style="text-align:center">
+        <span style="font-size:2.5rem;color:var(--purple-glow);display:block;margin-bottom:.5rem"><i class="fa-solid fa-users-gear"></i></span>
+        <div class="role-name">Delegar</div>
+        <div class="role-desc">Asignamos responsabilidades a miembros con experiencia</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- 02 · ROLES -->
-<section id="roles">
+<!-- 02 · PODERES -->
+<section id="poderes">
   <div class="container">
     <div class="section-header reveal">
       <div class="section-num">02</div>
       <div class="section-info">
-        <div class="section-label">Organigrama</div>
-        <h2 class="section-title">Estructura de Roles ENT</h2>
+        <div class="section-label">Staff</div>
+        <h2 class="section-title">Poderes del ENT</h2>
         <div class="section-line"></div>
       </div>
     </div>
-    <p style="font-size:.9rem;color:var(--text-dim);margin-bottom:1.5rem;" class="reveal">Orden de autoridad, de mayor a menor:</p>
-    <div class="roles-grid reveal" style="transition-delay:.1s">
-      <div class="role-card">
-        <div class="role-abbr">ADM</div>
-        <div class="role-name">Administrador</div>
-        <div class="role-desc">Máximo rango. Permisos especiales de servidor. Supervisión general del departamento.</div>
-        <div class="role-hierarchy">AUTORIDAD MÁXIMA</div>
-      </div>
-      <div class="role-card">
-        <div class="role-abbr">Aux.ENT</div>
-        <div class="role-name">Auxiliar</div>
-        <div class="role-desc">Por encima del Líder. Apoyo estratégico y de coordinación entre eventos. Resolución de conflictos de alto nivel.</div>
-        <div class="role-hierarchy">POR ENCIMA DE LID.ENT</div>
-      </div>
-      <div class="role-card">
-        <div class="role-abbr">Lid.ENT</div>
-        <div class="role-name">Líder</div>
-        <div class="role-desc">Máxima autoridad operativa en eventos. Responsable final de la calidad de cada evento.</div>
-        <div class="role-hierarchy">DEBAJO DE AUX.ENT</div>
-      </div>
-      <div class="role-card">
-        <div class="role-abbr">Sub.ENT</div>
-        <div class="role-name">Sublíder</div>
-        <div class="role-desc">Apoya al Líder en la coordinación general. Toma decisiones secundarias durante los eventos.</div>
-      </div>
-      <div class="role-card">
-        <div class="role-abbr">ENT</div>
-        <div class="role-name">Miembro Verificado</div>
-        <div class="role-desc">Miembro activo con acceso completo para organizar y gestionar eventos de forma autónoma.</div>
-      </div>
-      <div class="role-card">
-        <div class="role-abbr">ENT-T</div>
-        <div class="role-name">Tester</div>
-        <div class="role-desc">Miembro en período de prueba. Aprende observando y asistiendo bajo supervisión.</div>
+    <div class="reveal" style="transition-delay:.1s">
+      <table class="data-table">
+        <thead><tr><th>Comando</th><th>Función</th><th>Ejemplo</th></tr></thead>
+        <tbody>
+          <tr><td><span class="inline-code">WALL</span></td><td>Ver jugadores a través de paredes</td><td>En consola</td></tr>
+          <tr><td><span class="inline-code">NC</span></td><td>Modo Noclip (volar)</td><td>En consola</td></tr>
+          <tr><td><span class="inline-code">areamundo [n] [r]</span></td><td>Crear mundo aislado para evento</td><td><span class="inline-code">areamundo 69 10</span></td></tr>
+          <tr><td><span class="inline-code">TPAREA</span></td><td>Teletransportar área al punto</td><td>Desde panel</td></tr>
+          <tr><td><span class="inline-code">/adm</span></td><td>Anunciar al mundo del evento</td><td>Ver sección 06</td></tr>
+          <tr><td><span class="inline-code">/areamundo 1 100</span></td><td>Regresar todos al mundo 1</td><td>Fin del evento</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-cyan reveal" style="transition-delay:.2s;margin-top:1.5rem">
+      <span class="alert-icon"><i class="fa-solid fa-info-circle"></i></span>
+      <p class="alert-text">Los eventos se hacen en <strong>mundos aislados</strong> — no afectan al servidor principal ni a otros jugadores.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 · RANGOS Y UNIFORME -->
+<section id="rangos">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">03</div>
+      <div class="section-info">
+        <div class="section-label">Organización</div>
+        <h2 class="section-title">Rangos y Uniforme</h2>
+        <div class="section-line"></div>
       </div>
     </div>
-    <div class="reveal" style="margin-top:3rem;transition-delay:.2s">
-      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-shirt"></i></span> Uniforme Oficial ENT</h3>
-      <p style="font-size:.85rem;color:var(--text-dim);margin-bottom:1rem;">Debes tener el uniforme puesto antes de iniciar cualquier evento.</p>
-    </div>
-    <div class="uniform-row reveal" style="transition-delay:.3s">
-      <div class="uniform-card">
-        <span class="uniform-icon"><i class="fa-solid fa-user-tie"></i></span>
-        <div class="uniform-label">Camiseta · Hombre</div>
-        <div class="uniform-type">Uniforme Masculino</div>
-        <div class="uniform-id">502</div>
-        <div class="uniform-note">ID de ropa del uniforme oficial para miembros masculinos.</div>
+    <div class="reveal" style="transition-delay:.1s">
+      <div class="roles-grid">
+        <div class="role-card"><div class="role-abbr">ADM</div><div class="role-name">Administrador</div><div class="role-desc">Máxima autoridad del departamento</div><div class="role-hierarchy">AUTORIDAD MÁXIMA</div></div>
+        <div class="role-card"><div class="role-abbr">Aux.ENT</div><div class="role-name">Auxiliar</div><div class="role-desc">Apoyo estratégico, por encima del Líder</div><div class="role-hierarchy">2° EN MANDO</div></div>
+        <div class="role-card"><div class="role-abbr">Lid.ENT</div><div class="role-name">Líder</div><div class="role-desc">Máxima autoridad operativa en eventos</div><div class="role-hierarchy">3° EN MANDO</div></div>
+        <div class="role-card"><div class="role-abbr">Sub.ENT</div><div class="role-name">Sublíder</div><div class="role-desc">Apoya al Líder en coordinación</div></div>
+        <div class="role-card"><div class="role-abbr">ENT</div><div class="role-name">Miembro</div><div class="role-desc">Acceso completo para organizar eventos</div></div>
+        <div class="role-card"><div class="role-abbr">ENT-T</div><div class="role-name">Tester</div><div class="role-desc">En período de prueba</div></div>
       </div>
-      <div class="uniform-card">
-        <span class="uniform-icon"><i class="fa-solid fa-user"></i></span>
-        <div class="uniform-label">Camiseta · Mujer</div>
-        <div class="uniform-type">Uniforme Femenino</div>
-        <div class="uniform-id">693</div>
-        <div class="uniform-note">ID de ropa del uniforme oficial para miembros femeninas.</div>
+    </div>
+    <div class="reveal" style="transition-delay:.2s;margin-top:2rem">
+      <h3 class="sub-heading"><span class="sh-icon"><i class="fa-solid fa-shirt"></i></span> Uniforme Oficial</h3>
+      <div class="uniform-row">
+        <div class="uniform-card">
+          <span class="uniform-icon"><i class="fa-solid fa-user-tie"></i></span>
+          <div class="uniform-label">Hombre</div>
+          <div class="uniform-type">Uniforme Masculino</div>
+          <div class="uniform-id">502</div>
+        </div>
+        <div class="uniform-card">
+          <span class="uniform-icon"><i class="fa-solid fa-user"></i></span>
+          <div class="uniform-label">Mujer</div>
+          <div class="uniform-type">Uniforme Femenino</div>
+          <div class="uniform-id">693</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 03 · CANALES -->
+<!-- 04 · CANALES -->
 <section id="canales">
   <div class="container">
     <div class="section-header reveal">
